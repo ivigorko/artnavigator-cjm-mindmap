@@ -3,197 +3,685 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>АртНавигатор — CJM Mind Map (7 ролей)</title>
+<title>АртНавигатор — Mind Map педагога (CJM)</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Helvetica Neue",Arial,sans-serif;background:linear-gradient(135deg,#f4f5fa 0%,#ecf0fa 100%);color:#1a1f3a;min-height:100vh;line-height:1.5}
-header{background:linear-gradient(135deg,#1a1f3a 0%,#2d2270 100%);color:#fff;padding:18px 36px;box-shadow:0 3px 16px rgba(0,0,0,.12)}
-header h1{font-size:22px;font-weight:700;letter-spacing:-.3px}
-header .subtitle{font-size:13px;opacity:.88;margin-top:3px}
-header .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;font-size:11px}
-header .meta span{background:rgba(255,255,255,.12);padding:4px 10px;border-radius:12px}
-.canvas-wrap{display:flex;align-items:center;justify-content:center;padding:24px;min-height:calc(100vh - 160px)}
-svg{display:block;background:#fff;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.08);max-width:100%;height:auto}
-.connector{fill:none;stroke-width:4;opacity:.55}
-.node{cursor:pointer;transition:all .2s}
-.node:hover rect{stroke-width:6}
-.node:hover .root-rect{filter:url(#shadow)}
-.node:hover .branch-rect{filter:url(#branchShadow)}
-.root-rect{fill:#1a1f3a;stroke:#2d2270;stroke-width:4;rx:24;filter:url(#shadow)}
-.root-text{font-size:26px;fill:#fff;font-weight:800;text-anchor:middle}
-.root-sub{font-size:13px;fill:rgba(255,255,255,.78);text-anchor:middle}
-.branch-rect{stroke-width:4;rx:18;filter:url(#branchShadow)}
-.branch-title{font-size:22px;fill:#fff;font-weight:700;text-anchor:middle}
-.branch-sub{font-size:13px;fill:rgba(255,255,255,.88);text-anchor:middle}
-.branch-num{font-size:13px;fill:rgba(255,255,255,.65);font-weight:700;text-anchor:middle;letter-spacing:2px}
-.branch-num-dark{font-size:13px;fill:rgba(26,31,58,.55);font-weight:700;text-anchor:middle;letter-spacing:2px}
-.branch-sub-dark{font-size:13px;fill:rgba(26,31,58,.85);text-anchor:middle}
-.title-svg{font-size:30px;fill:#1a1f3a;text-anchor:middle;font-weight:800}
-.subtitle-svg{font-size:14px;fill:#6c7393;text-anchor:middle}
-.legend-text{font-size:12px;fill:#6c7393}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,15,40,.6);z-index:1000;padding:20px;overflow-y:auto}
-.modal-overlay.active{display:flex;align-items:flex-start;justify-content:center}
-.modal-card{background:#fff;border-radius:14px;width:100%;max-width:1180px;margin:20px auto;box-shadow:0 24px 80px rgba(0,0,0,.4);overflow:hidden}
-.modal-head{padding:22px 32px;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:16px}
-.modal-head h2{font-size:22px;font-weight:700}
-.modal-head .num{font-size:11px;letter-spacing:2px;text-transform:uppercase;opacity:.85;margin-bottom:4px}
-.modal-head .desc{font-size:13px;opacity:.85;margin-top:4px}
-.modal-close{background:rgba(255,255,255,.15);border:none;color:#fff;font-size:24px;cursor:pointer;width:36px;height:36px;border-radius:8px;line-height:1;flex-shrink:0}
-.modal-close:hover{background:rgba(255,255,255,.3)}
-.modal-body{padding:28px 32px;max-height:72vh;overflow-y:auto}
-.modal-body h3{font-size:17px;color:#1a1f3a;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid #4834d4}
-.modal-body h3:first-child{margin-top:0}
-.modal-body h4{font-size:14px;color:#4834d4;margin:14px 0 6px;font-weight:700}
-.modal-body p{font-size:13px;line-height:1.55;color:#2d3142;margin-bottom:8px}
-.modal-body table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
-.modal-body table th{background:#4834d4;color:#fff;padding:8px 10px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
-.modal-body table td{padding:8px 10px;border-bottom:1px solid #e1e4ed;vertical-align:top}
-.modal-body table tr:nth-child(even) td{background:#f8f9fc}
-.modal-body ul{padding-left:22px;margin:6px 0 12px}
-.modal-body li{font-size:13px;line-height:1.5;margin:4px 0;color:#2d3142}
-.modal-body .pain{background:#fff5f3;border-left:3px solid #ff7675;padding:10px 14px;margin:6px 0;font-size:13px;border-radius:0 6px 6px 0}
-.modal-body .pain::before{content:"! ";color:#ff7675;font-weight:700}
-.modal-body .opp{background:#f0fff4;border-left:3px solid #00b894;padding:10px 14px;margin:6px 0;font-size:13px;border-radius:0 6px 6px 0}
-.modal-body .opp::before{content:"+ ";color:#00b894;font-weight:700}
-.modal-body .quote{background:#f8f9fc;border-left:3px solid #6c5ce7;padding:10px 14px;margin:8px 0;font-style:italic;font-size:13px}
-.modal-body .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:10px 0}
-.modal-body .stat{background:#f8f9fc;padding:10px 14px;border-radius:8px;border:1px solid #e1e4ed}
-.modal-body .stat .v{font-size:18px;font-weight:700;color:#4834d4}
-.modal-body .stat .l{font-size:11px;color:#6c7393;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
-footer{background:#1a1f3a;color:#6c7393;padding:10px 36px;font-size:11px;text-align:center}
-.hint{position:fixed;bottom:18px;right:18px;background:#4834d4;color:#fff;padding:10px 16px;border-radius:10px;font-size:12px;box-shadow:0 4px 16px rgba(72,52,212,.4);z-index:50}
+  :root{
+    color-scheme: light;
+    --bg:#0f1226; --panel:#ffffff; --ink:#1a1f3a; --muted:#6c7393;
+    --line:#e1e4ed;
+    --seg-baz:#16a085; --seg-mas:#6c5ce7; --seg-pro:#e67e22; --seg-str:#2980b9;
+    --sev5:#d63031; --sev4:#e17055; --sev3:#fdcb6e;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:#eef0f7;overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100vh;}
+
+  header{background:linear-gradient(135deg,#4834d4 0%,#6c5ce7 55%,#00cec9 100%);color:#fff;padding:12px 20px;box-shadow:0 2px 14px rgba(0,0,0,.18);z-index:20;}
+  header .top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  header h1{margin:0;font-size:18px;font-weight:800;letter-spacing:-.2px;}
+  header .sub{font-size:12px;opacity:.9;}
+  header .stats{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;}
+  header .stats span{font-size:11px;background:rgba(255,255,255,.15);padding:3px 9px;border-radius:20px;white-space:nowrap;}
+
+  .toolbar{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;}
+  .toolbar button{border:none;background:rgba(255,255,255,.16);color:#fff;font-size:12px;font-weight:600;padding:6px 11px;border-radius:8px;cursor:pointer;transition:.15s;}
+  .toolbar button:hover{background:rgba(255,255,255,.30);}
+  .toolbar .search{position:relative;}
+  .toolbar input{border:none;border-radius:8px;padding:7px 12px 7px 30px;font-size:12px;width:230px;outline:none;color:#1a1f3a;}
+  .toolbar .search::before{content:'⌕';position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#6c7393;font-size:15px;}
+  .toolbar .legend{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:11px;}
+  .toolbar .legend .lg{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);padding:3px 8px;border-radius:20px;}
+  .toolbar .legend .dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+
+  .stage{position:relative;flex:1;overflow:hidden;background:radial-gradient(circle at 50% 45%,#fbfbff 0%,#e9ecf7 70%,#dfe3f2 100%);}
+  svg#map{width:100%;height:100%;display:block;cursor:grab;touch-action:none;}
+  svg#map.grabbing{cursor:grabbing;}
+  .edge{fill:none;stroke:#c6cbe0;stroke-width:1.6;transition:stroke .2s,stroke-width .2s;}
+  .edge.hot{stroke-width:2.6;}
+  .node{cursor:pointer;}
+  .node circle{stroke:#fff;stroke-width:2.5;transition:r .18s ease, filter .18s;}
+  .node text{font-size:12.5px;fill:var(--ink);paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round;pointer-events:none;}
+  .node.dim{opacity:.18;}
+  .node.match circle{filter:drop-shadow(0 0 6px #ffd24d);}
+  .node .toggle{font-size:12px;font-weight:800;fill:#fff;stroke:none;text-anchor:middle;dominant-baseline:central;pointer-events:none;}
+  .node .count{font-size:9px;fill:#fff;stroke:none;text-anchor:middle;dominant-baseline:central;pointer-events:none;font-weight:700;}
+  .node.selected circle{stroke:#1a1f3a;stroke-width:3.5px;}
+
+  .hint{position:absolute;left:14px;bottom:12px;font-size:11px;color:#6c7393;background:rgba(255,255,255,.8);padding:6px 12px;border-radius:20px;box-shadow:0 1px 6px rgba(0,0,0,.08);}
+  .zoombar{position:absolute;right:14px;bottom:14px;display:flex;flex-direction:column;gap:6px;}
+  .zoombar button{width:38px;height:38px;border:none;border-radius:10px;background:#fff;color:#4834d4;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .zoombar button:hover{background:#f1f0ff;}
+
+  /* detail drawer */
+  .drawer{position:absolute;top:0;right:0;height:100%;width:390px;max-width:88vw;background:var(--panel);box-shadow:-6px 0 24px rgba(0,0,0,.14);transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:15;display:flex;flex-direction:column;}
+  .drawer.open{transform:translateX(0);}
+  .drawer .dh{padding:20px 22px 16px;color:#fff;position:relative;}
+  .drawer .dh .kicker{font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;opacity:.9;}
+  .drawer .dh h2{margin:6px 0 0;font-size:20px;line-height:1.25;}
+  .drawer .dh .close{position:absolute;top:14px;right:14px;width:30px;height:30px;border:none;border-radius:8px;background:rgba(255,255,255,.2);color:#fff;font-size:17px;cursor:pointer;}
+  .drawer .db{padding:20px 22px;overflow-y:auto;flex:1;}
+  .field{margin-bottom:18px;}
+  .field .lbl{font-size:11px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:#8a90a8;margin-bottom:7px;}
+  .field .val{font-size:13.5px;line-height:1.55;color:#2d3142;}
+  .field ul{margin:0;padding-left:18px;}
+  .field li{margin:3px 0;font-size:13px;line-height:1.5;}
+  .quote{background:#f4f2ff;border-left:3px solid #6c5ce7;padding:12px 14px;border-radius:0 8px 8px 0;font-style:italic;font-size:13px;color:#3a3d5c;}
+  .pain{background:#fff5f3;border-left:3px solid #ff7675;padding:11px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-bottom:8px;}
+  .opp{background:#f0fff6;border-left:3px solid #00b894;padding:11px 14px;border-radius:0 8px 8px 0;font-size:13px;}
+  .badge{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:20px;font-size:12px;font-weight:700;color:#fff;}
+  .ibar{height:8px;border-radius:5px;background:#e6e8f2;overflow:hidden;margin-top:7px;}
+  .ibar > i{display:block;height:100%;border-radius:5px;}
+  .sev{display:inline-block;padding:3px 10px;border-radius:14px;font-size:12px;font-weight:700;color:#fff;}
+  footer{background:#fff;border-top:1px solid var(--line);padding:7px 16px;font-size:11px;color:#9ba3b4;text-align:center;z-index:5;}
+  @media(max-width:640px){
+    .toolbar input{width:150px;}
+    header .stats{display:none;}
+    .toolbar .legend{display:none;}
+  }
 </style>
 </head>
 <body>
-<header>
-  <h1>АртНавигатор — Полная CJM Mind Map</h1>
-  <div class="subtitle">7 ролей пользователей · 3 time horizon · 144 680 визитов/год — кликни на ветвь для деталей</div>
-  <div class="meta">
-    <span>v1.1 · июль 2026</span>
-    <span>Каналы РФ 2026 (MAX / VK)</span>
-    <span>Источник: CJM_Pedagog + CONTEXT</span>
+<div id="app">
+  <header>
+    <div class="top">
+      <div>
+        <h1>АртНавигатор — Mind Map педагога</h1>
+        <div class="sub">Customer Journey Map · 3 сегмента · 3 горизонта · каналы РФ 2026 (MAX / VK)</div>
+      </div>
+      <div class="stats" id="stats"></div>
+    </div>
+    <div class="toolbar">
+      <div class="search"><input id="search" type="text" placeholder="Поиск по узлам, болям, фичам…" autocomplete="off"></div>
+      <button id="expandAll">Развернуть всё</button>
+      <button id="collapseAll">Свернуть всё</button>
+      <button id="reset">Сброс вида</button>
+      <div class="legend" id="legend"></div>
+    </div>
+  </header>
+
+  <div class="stage">
+    <svg id="map"></svg>
+    <div class="hint">Клик по узлу — раскрыть ветку и открыть детали · колесо — зум · перетаскивание — панорама</div>
+    <div class="zoombar">
+      <button id="zin" title="Приблизить">+</button>
+      <button id="zout" title="Отдалить">−</button>
+      <button id="zfit" title="Вписать" style="font-size:14px;">⤢</button>
+    </div>
+    <aside class="drawer" id="drawer">
+      <div class="dh" id="drawerHead"></div>
+      <div class="db" id="drawerBody"></div>
+    </aside>
   </div>
-</header>
 
-<div class="canvas-wrap">
-<svg id="mindmap" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" width="1600" height="1200" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif">
-<defs>
-<filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-  <feGaussianBlur in="SourceAlpha" stdDeviation="6"/><feOffset dx="0" dy="4"/><feComponentTransfer><feFuncA type="linear" slope=".25"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-</filter>
-<filter id="branchShadow" x="-50%" y="-50%" width="200%" height="200%">
-  <feGaussianBlur in="SourceAlpha" stdDeviation="4"/><feOffset dx="0" dy="3"/><feComponentTransfer><feFuncA type="linear" slope=".2"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-</filter>
-</defs>
-
-<text x="800" y="46" class="title-svg">АртНавигатор — Customer Journey Map Mind Map</text>
-<text x="800" y="72" class="subtitle-svg">7 ролей · экосистема из 7 поддоменов · SEO-лидер рынка · Июль 2026</text>
-
-<circle cx="800" cy="630" r="430" fill="none" stroke="#dfe3f0" stroke-width="1" stroke-dasharray="4 4" opacity=".6"/>
-<circle cx="800" cy="630" r="320" fill="none" stroke="#cdd5e8" stroke-width="1.5" opacity=".5"/>
-
-<line class="connector" stroke="#4834d4" x1="800" y1="700" x2="800" y2="870"/>
-<line class="connector" stroke="#6c5ce7" x1="900" y1="700" x2="1080" y2="820"/>
-<line class="connector" stroke="#4834d4" x1="930" y1="630" x2="1170" y2="630"/>
-<line class="connector" stroke="#00b894" x1="860" y1="570" x2="980" y2="450"/>
-<line class="connector" stroke="#fdcb6e" x1="740" y1="570" x2="620" y2="450"/>
-<line class="connector" stroke="#ff7675" x1="700" y1="630" x2="430" y2="630"/>
-<line class="connector" stroke="#e84393" x1="730" y1="690" x2="540" y2="825"/>
-
-<g class="node root-node" data-branch="root">
-<rect x="640" y="550" width="320" height="160" class="root-rect"/>
-<text x="800" y="600" class="root-text">АртНавигатор</text>
-<text x="800" y="630" class="root-sub">детские творческие конкурсы</text>
-<text x="800" y="655" class="root-sub">старт 10.10.2026 · 110K+ участников</text>
-<text x="800" y="678" class="root-sub">SEO-лидер · TOP-1 по 62 запросам</text>
-<text x="800" y="700" class="root-sub">7 ролей · 144 680 визитов/год</text>
-</g>
-
-<g class="node branch" data-branch="platform">
-<rect x="600" y="870" width="400" height="100" class="branch-rect" fill="#4834d4" stroke="#3528b0"/>
-<text x="800" y="900" class="branch-num">ВЕТВЬ 1</text>
-<text x="800" y="928" class="branch-title">Фундамент платформы</text>
-<text x="800" y="955" class="branch-sub">7 поддоменов · воронка · 24 фрикции · каналы</text>
-</g>
-
-<g class="node branch" data-branch="participant">
-<rect x="930" y="770" width="370" height="100" class="branch-rect" fill="#6c5ce7" stroke="#4a3fb0"/>
-<text x="1115" y="800" class="branch-num">ВЕТВЬ 2</text>
-<text x="1115" y="828" class="branch-title">Участник / Родитель</text>
-<text x="1115" y="855" class="branch-sub">B2C · главный поток · дети 6-17 лет</text>
-</g>
-
-<g class="node branch" data-branch="teacher">
-<rect x="1170" y="580" width="400" height="110" class="branch-rect" fill="#4834d4" stroke="#3528b0" stroke-width="6"/>
-<text x="1370" y="610" class="branch-num">ВЕТВЬ 3 ★</text>
-<text x="1370" y="640" class="branch-title">Педагог</text>
-<text x="1370" y="667" class="branch-sub">главная роль · 3 сегмента</text>
-<text x="1370" y="687" class="branch-sub">114 точек CJM · 38 шагов × 3</text>
-</g>
-
-<g class="node branch" data-branch="organizer">
-<rect x="820" y="370" width="370" height="100" class="branch-rect" fill="#00b894" stroke="#00946c"/>
-<text x="1005" y="400" class="branch-num">ВЕТВЬ 4</text>
-<text x="1005" y="428" class="branch-title">Организатор</text>
-<text x="1005" y="455" class="branch-sub">B2B · organizer.артнавигатор.рф</text>
-</g>
-
-<g class="node branch" data-branch="school">
-<rect x="410" y="370" width="370" height="100" class="branch-rect" fill="#fdcb6e" stroke="#d4a82e"/>
-<text x="595" y="400" class="branch-num-dark">ВЕТВЬ 5</text>
-<text x="595" y="428" class="branch-title" style="fill:#1a1f3a">Школа / Студия</text>
-<text x="595" y="455" class="branch-sub-dark">B2B · classes.артнавигатор.рф</text>
-</g>
-
-<g class="node branch" data-branch="jury">
-<rect x="30" y="580" width="400" height="110" class="branch-rect" fill="#ff7675" stroke="#d4544f"/>
-<text x="230" y="610" class="branch-num">ВЕТВЬ 6</text>
-<text x="230" y="640" class="branch-title">Жюри / Зритель</text>
-<text x="230" y="667" class="branch-sub">afisha · оценивание · UGC</text>
-<text x="230" y="687" class="branch-sub">социальное доказательство</text>
-</g>
-
-<g class="node branch" data-branch="opportunity">
-<rect x="370" y="775" width="370" height="100" class="branch-rect" fill="#e84393" stroke="#b53074"/>
-<text x="555" y="805" class="branch-num">ВЕТВЬ 7</text>
-<text x="555" y="833" class="branch-title">Opportunity Map</text>
-<text x="555" y="860" class="branch-sub">Quick Wins · Strategic Bets · Гипотезы</text>
-</g>
-
-<g transform="translate(160, 1050)">
-<text class="legend-text" style="font-weight:700;font-size:14px;fill:#1a1f3a">Как читать эту карту</text>
-<text y="28" class="legend-text">★ — главная роль для маркетинга 2026 (педагог — источник 100% повторных покупок)</text>
-<text y="52" class="legend-text">Каждая ветвь описывает одну роль пользователя или системный блок. Кликни на любую ветвь — детали CJM в модалке</text>
-<text y="76" class="legend-text" style="font-style:italic">Esc — закрыть модалку · Источник: CJM_Pedagog_{Massovy, Prodvinuty, Bazovy} + CONTEXT.md</text>
-<text y="100" class="legend-text">Данные: <tspan font-weight="700">144 680 визитов/год</tspan>, конверсия 3.4%, 110K+ участников за всё время, 7 поддоменов, MAX/VK как каналы 2026</text>
-</g>
-</svg>
+  <footer>АртНавигатор © 2026 · Mind Map педагога построена по сводной CJM v1.1 (базовый / массовый / продвинутый) · источники: CONTEXT.md, CJM_Pedagog_*.md, SEGMENT_*.md</footer>
 </div>
 
-<div class="hint">★ — кликни на ветвь чтобы увидеть CJM-детали</div>
-
-<div class="modal-overlay" id="modal">
-<div class="modal-card">
-<div class="modal-head" id="modalHead">
-<div>
-<div class="num" id="m-num"></div>
-<h2 id="m-title"></h2>
-<div class="desc" id="m-desc"></div>
-</div>
-<button class="modal-close" onclick="closeModal()">×</button>
-</div>
-<div class="modal-body" id="m-body"></div>
-</div>
-</div>
-
-<footer>АртНавигатор © 2026 · Customer Journey Map — маркетинговая версия · Июль 2026</footer>
-
-<script src="data.js"></script>
 <script>
-function shade(hex,p){const f=parseInt(hex.slice(1),16);const t=p<0?0:255;const a=Math.abs(p)/100;const R=f>>16;const G=(f>>8)&255;const B=f&255;const nR=Math.round((t-R)*a)+R;const nG=Math.round((t-G)*a)+G;const nB=Math.round((t-B)*a)+B;return"#"+(0x1000000+nR*65536+nG*256+nB).toString(16).slice(1)}
-function openModal(k){const d=DETAILS[k];if(!d)return;const h=document.getElementById("modalHead");h.style.background="linear-gradient(135deg, "+d.color+" 0%, "+shade(d.color,-25)+" 100%)";document.getElementById("m-num").textContent=d.num;document.getElementById("m-title").textContent=d.title;document.getElementById("m-desc").textContent=d.desc||"";const b=document.getElementById("m-body");b.innerHTML=d.sections.map(s=>"<h3>"+s.h3+"</h3>"+s.html).join("");document.getElementById("modal").classList.add("active");document.body.style.overflow="hidden"}
-function closeModal(){document.getElementById("modal").classList.remove("active");document.body.style.overflow=""}
-document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll(".node").forEach(el=>{el.addEventListener("click",()=>{const b=el.dataset.branch;if(b)openModal(b)})});document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()})});
+/* ============================ EMOTIONS ============================ */
+const EMO = {
+  confused:    {label:'растерянность', color:'#b2bec3'},
+  anxious:     {label:'тревога',       color:'#fdcb6e'},
+  hopeful:     {label:'надежда',       color:'#74b9ff'},
+  frustrated:  {label:'фрустрация',    color:'#ff7675'},
+  confident:   {label:'уверенность',   color:'#55efc4'},
+  proud:       {label:'гордость',      color:'#a29bfe'},
+  disappointed:{label:'разочарование', color:'#636e72'}
+};
+const SEVCOLOR = v => v>=5?'#d63031':(v>=4?'#e17055':(v>=3?'#f39c12':'#b2bec3'));
+
+/* helper builders */
+const P = (name,emotion,intensity,peak,pain,opp)=>({name,kind:'phase',emotion,intensity,peak:!!peak,pain,opp});
+
+/* ============================ DATA ============================ */
+const DATA = {
+  name:'Педагог\nАртНавигатор', kind:'root', color:'#4834d4',
+  children:[
+    /* ---------------- БАЗОВЫЙ ---------------- */
+    {name:'Базовый · Ольга', kind:'segment', color:'var(--seg-baz)', accent:'#16a085',
+     tagline:'Мама-педагог по призванию, 41, Саратов · 1-2 конкурса/год',
+     children:[
+      {name:'Персона', kind:'persona', accent:'#16a085',
+       demo:['41 год, Саратов (город 50-300K)','Мама + педагог по призванию, образование непрофильное','1 свой ребёнок + 2-6 чужих','Тех-навыки: «чайник» (MAX, Сбербанк-онлайн)','Бюджет 500-1500 руб/год из семейного','Канал: родительский чат, Одноклассники'],
+       goals:['Найти конкурс с низким порогом входа','Подготовить ребёнка без нагрузки','Получить диплом как награду ученику','Не тратить время на сложные формы'],
+       frustr:['«Не понимаю сайты, логин-пароль, потом ещё что-то»','«Цены высокие, плюс скрытые комиссии»','«Правила написаны канцеляритом»','Из маленького города — «нигде не дают площадок»'],
+       quote:'Захожу на сайт — закрываю, слишком сложно. Дайте что-то простое: зашли, посмотрели, отправили работы — и всё.'},
+      {name:'A · Один конкурс', kind:'horizon', accent:'#16a085', children:[
+        P('A.1 Осознание','hopeful',2,false,'Не понимаю, какие конкурсы настоящие (гипотеза)'),
+        P('A.2 Поиск','confused',3,false,'70% отвал «визит — карточка» на events.артнавигатор.рф (CONTEXT)','Пресет-фильтр «Для мам и начинающих»: онлайн + до 1000 руб + 6-10 лет'),
+        P('A.3 Подготовка заявки','frustrated',3,true,'Форма длинная, много лишних полей — критично для чайника (SEGMENT_BAZOVY)','Компактная форма на 5-7 полей'),
+        P('A.4 Оплата','anxious',3,true,'Скрытые комиссии + нет SMS/email подтверждения (CONTEXT) — теряется доверие','Чёткая финальная цена «800 рублей, без скрытых комиссий» + email/SMS'),
+        P('A.5 Участие','hopeful',4,false,'Фото работ не принимают — непонятен формат (гипотеза)'),
+        P('A.6 Диплом','proud',5,true,'Нет единого места для хранения, формат PDF непонятен (CONTEXT)'),
+        P('A.7 Рефлексия','hopeful',3,false,'Платформа «отпускает» после конкурса — 100% потерь повторных (CONTEXT)','Триггерное письмо через месяц «5 подходящих вариантов»')
+      ]},
+      {name:'B · Учебный год', kind:'horizon', accent:'#16a085', children:[
+        P('B.1 Планирование','hopeful',3,false,'Бюджет семьи ограничен, согласование с мужем (SEGMENT_BAZOVY)'),
+        P('B.2 Поиск календаря','hopeful',3,false,'Нет понимания «хороший» vs «для галочки» (SEGMENT_BAZOVY)'),
+        P('B.3 Подача','confident',3,false,'1-2 заявки — форма всё равно пугает (гипотеза)'),
+        P('B.4 Управление','anxious',2,false,'Нет SMS-напоминаний о дедлайнах (CONTEXT)'),
+        P('B.5 Участие/диплом','proud',4,false,'Дипломы теряются в почте, форматы разные (CONTEXT)'),
+        P('B.6 Итоги','confident',3,false,'Семейное обсуждение, нет статистики (гипотеза)'),
+        P('B.7 Подготовка','hopeful',3,false,'Летом новых конкурсов мало (гипотеза)')
+      ]},
+      {name:'C · 1-2 года', kind:'horizon', accent:'#16a085', children:[
+        P('C.1 Первое касание','confused',2,false,'99.7% отвал прямых визитов без понимания, куда попал (CONTEXT)'),
+        P('C.2 Первая заявка','anxious',2,false,'Форма сложная — вернусь в Одноклассники (CONTEXT)'),
+        P('C.3 Решение','hopeful',3,false,'Платформа забывает, ухожу в Яндекс (гипотеза)'),
+        P('C.4 Регулярное использование','confident',4,false,'Бейдж «с 2026 года», единый ЛК (гипотеза)'),
+        P('C.5 Углубление','proud',4,false,'Не знаю, какие номинации для 11-12 лет (гипотеза)')
+      ]}
+     ]},
+
+    /* ---------------- МАССОВЫЙ ---------------- */
+    {name:'Массовый · Елена', kind:'segment', color:'var(--seg-mas)', accent:'#6c5ce7',
+     tagline:'Руководитель хора в ДК, 47, Калуга · 32 ребёнка · 1-3 конкурса/год',
+     children:[
+      {name:'Персона', kind:'persona', accent:'#6c5ce7',
+       demo:['47 лет, региональный город 100-500K','Руководитель коллектива в ДК/школе, стаж 18-25 лет','20-40 детей в 1-2 коллективах','Тех-навыки: продвинутый пользователь (Excel, 1С)','Бюджет 200-500 руб/ученик — собирает с родителей','Канал: учительская, MAX с коллегами'],
+       goals:['Подобрать конкурс для коллектива','Минимизировать бюрократию на 20-40 человек','Получить дипломы гос. образца для отчёта','Показать результат директору'],
+       frustr:['«Много бумажной работы, нет удобного инструмента»','«Заявки на 30 человек — Excel, копипаста, ошибки»','«Родители спрашивают: а всё в порядке?»','«Нет единого места со всеми заявками и статусами»','«Дипломы учеников разбросаны»'],
+       quote:'У меня 32 ребёнка в хоре. Каждый сезон — ад сбора денег и заявок. Хочется ОДНО место, где я подала всё, и оно само напомнило.'},
+      {name:'A · Один конкурс', kind:'horizon', accent:'#6c5ce7', children:[
+        P('A.1 Осознание','anxious',2,false,'Нет внутреннего календаря конкурсов (гипотеза)'),
+        P('A.2 Поиск','frustrated',2,false,'70% отвал + карточка не отвечает на 4 главных вопроса (CONTEXT)'),
+        P('A.3 Подготовка заявки','frustrated',3,true,'600 полей на 30 детей + Excel-копипаста (CONTEXT) — критично для масштаба','Шаблон «Мой коллектив» в ЛК: список учеников, автозаполнение'),
+        P('A.4 Оплата','anxious',3,false,'Сбор денег с 30 родителей через MAX + нет подтверждения (CONTEXT)','Email/SMS после оплаты — разгружает от звонков родителей'),
+        P('A.5 Участие','hopeful',4,false,'Согласование доп. репетиций с 30 родителями (гипотеза)'),
+        P('A.6 Диплом','proud',4,false,'Дипломы в папках на рабочем столе (SEGMENT_MASSOVY)','Excel-выгрузка заявок и дипломов по ЛК'),
+        P('A.7 Рефлексия','hopeful',2,false,'Нет follow-up «вы давно не подавали» (CONTEXT)')
+      ]},
+      {name:'B · Учебный год', kind:'horizon', accent:'#6c5ce7', children:[
+        P('B.1 Планирование','anxious',2,false,'Согласование с администрацией, нужен шаблон аргументации (гипотеза)'),
+        P('B.2 Поиск календаря','hopeful',3,false,'Общие рассылки не подходят для её сегмента (гипотеза)'),
+        P('B.3 Подача','confident',4,false,'Снова 600 полей на 30 детей, нет шаблона коллектива (CONTEXT)'),
+        P('B.4 Управление','frustrated',3,false,'Сбор денег по 3 конкурсам в год = 90 сверок (гипотеза)'),
+        P('B.5 Участие/диплом','proud',4,false,'Дипломы в разных форматах, нет Excel-выгрузки (CONTEXT)'),
+        P('B.6 Итоги','proud',5,true,'Отчёт собираю вручную из разных источников (CONTEXT)','Автоотчёт сезона + выгрузка для директора'),
+        P('B.7 Подготовка','hopeful',4,false,'В июне следующий год ещё не открыт (гипотеза)')
+      ]},
+      {name:'C · 1-2 года', kind:'horizon', accent:'#6c5ce7', children:[
+        P('C.1 Первое касание','confused',1,false,'Нет внятного позиционирования для педагога (гипотеза)'),
+        P('C.2 Первая заявка','anxious',2,false,'Сложный путь для педагогов признан слабостью (CONTEXT)'),
+        P('C.3 Решение','hopeful',3,false,'Нет follow-up после первого опыта (CONTEXT)'),
+        P('C.4 Регулярное использование','confident',5,false,'Баллы лояльности за 3+ сезона (гипотеза)'),
+        P('C.5 Углубление','proud',5,false,'Нужна подборка «смелые варианты» (гипотеза)')
+      ]}
+     ]},
+
+    /* ---------------- ПРОДВИНУТЫЙ ---------------- */
+    {name:'Продвинутый · Светлана', kind:'segment', color:'var(--seg-pro)', accent:'#e67e22',
+     tagline:'Руководитель частной студии, 38, Москва · 14 учеников · 3-7 конкурсов/год',
+     children:[
+      {name:'Персона', kind:'persona', accent:'#e67e22',
+       demo:['38 лет, Москва, ЦАО','Своя студия contemporary dance, стаж 12 лет','Образование: ГИТИС (красный диплом)','14 учеников в 2 группах + pre-project','Тех-навыки: продвинутый (Notion, MAX-каналы)','Бюджет 200-300 тыс. руб/год из фонда студии'],
+       goals:['Найти конкурс, поднимающий статус ученика и студии','Расширить географию — межгородние/международные','Собрать портфолио достижений для маркетинга','Получить признание жюри и коллег'],
+       frustr:['«Уже объездил все конкурсы, нужно новое»','«Жюри непредсказуемо, не понимаю, что оценивают»','«Дальние поездки — логистика ад, дорого»','«Хочу рейтинги конкурсов — где реально престиж»'],
+       quote:'Мне нужен конкурс, где жюри реально оценивает, где география Москва / Питер / Казань, и признание можно показать при поступлении.'},
+      {name:'A · Один конкурс', kind:'horizon', accent:'#e67e22', children:[
+        P('A.1 Осознание','hopeful',3,false,'Нет единого календаря межгородних/международных (гипотеза)'),
+        P('A.2 Поиск','confident',3,false,'70% отвал + нет рейтинга жюри (SEGMENT_PRODVINUTY)','Блок «Жюри конкурса: регалии, публикации, отзывы» на карточке'),
+        P('A.3 Подготовка заявки','frustrated',4,true,'12 одинаковых форм подряд + паспортные данные вручную (CONTEXT) — критично для статуса','Массовая подача через Excel + шаблон студии'),
+        P('A.4 Оплата','anxious',3,false,'Сбор с 12 семей параллельно + нет акта для бухгалтерии (CONTEXT)'),
+        P('A.5 Участие','confident',4,false,'Логистика поездки — билеты, гостиница, трансфер (SEGMENT_PRODVINUTY)','Партнёрский раздел «проверенные гостиницы и трансфер»'),
+        P('A.6 Диплом','proud',5,true,'Нет шаринга в соцсети студии (CONTEXT, 6.4)','Кнопка «Поделиться в ВК» на дипломе + OG-теги'),
+        P('A.7 Рефлексия','confident',5,false,'Нет механизма обратной связи от жюри (гипотеза)')
+      ]},
+      {name:'B · Учебный год', kind:'horizon', accent:'#e67e22', children:[
+        P('B.1 Планирование','confident',4,false,'ROI конкурсов не прописан, нет сквозной аналитики (гипотеза)'),
+        P('B.2 Поиск календаря','hopeful',4,false,'Рассылки теряются в спаме, нужен агрегатор (гипотеза)'),
+        P('B.3 Подача','anxious',3,false,'5 конкурсов параллельно, нет массового распределения (гипотеза)'),
+        P('B.4 Управление','frustrated',4,false,'60+ заявок, нет статусов в ЛК, документы в MAX (CONTEXT + SEGMENT_PRODVINUTY)','ЛК педагога: дашборд «Мои заявки» со статусами'),
+        P('B.5 Участие/диплом','proud',5,false,'Видео хранятся локально, нет автозагрузки в oki/my (CONTEXT)'),
+        P('B.6 Итоги','confident',5,false,'Нет автоотчёта «Сезон N» с графиками (гипотеза)'),
+        P('B.7 Подготовка','confident',4,false,'Нет AI-рекомендации на следующий год (гипотеза)')
+      ]},
+      {name:'C · 1-2 года', kind:'horizon', accent:'#e67e22', children:[
+        P('C.1 Первое касание','confused',2,false,'Платформа ориентирована на родителей, не на профи (гипотеза)'),
+        P('C.2 Первая заявка','hopeful',3,false,'my.артнавигатор.рф — минимальный трафик, мало кто знает (CONTEXT)'),
+        P('C.3 Решение','confident',4,false,'Стоимость vs экономия времени — нужно считать (гипотеза)'),
+        P('C.4 Регулярное использование','confident',4,false,'Мобильная версия my неудобна (гипотеза)'),
+        P('C.5 Углубление','proud',4,false,'Нет рекомендательной системы по жюри (SEGMENT_PRODVINUTY)','PRO-тариф с AI-рекомендациями жюри')
+      ]}
+     ]},
+
+    /* ---------------- СТРАТЕГИЯ ---------------- */
+    {name:'Стратегия и решения', kind:'strategy', color:'var(--seg-str)', accent:'#2980b9',
+     tagline:'Единый реестр фрикций, opportunity map и roadmap Q3 2026 — Q2 2027',
+     children:[
+      {name:'Critical Friction', kind:'group', accent:'#c0392b', children:[
+        {name:'Tier-1 · критические', kind:'group', accent:'#d63031', children:[
+          {name:'Нет email/SMS после оплаты', kind:'friction', sev:5, source:'CONTEXT «Известные боли»', where:'Все три сегмента'},
+          {name:'70% отвал «визит — карточка»', kind:'friction', sev:5, source:'CONTEXT «Топ-пробои»', where:'Все три'},
+          {name:'Нет Excel-выгрузки заявок', kind:'friction', sev:5, source:'CONTEXT «Известные боли»', where:'Массовый и продвинутый — критично'},
+          {name:'Нет триггера брошенной корзины', kind:'friction', sev:4, source:'CONTEXT «Топ-пробои»', where:'Все три'},
+          {name:'Нет CRM, 100% потерь повторных', kind:'friction', sev:5, source:'CONTEXT + стратегия', where:'Все три'},
+          {name:'my.артнавигатор.рф — 464 визита/год', kind:'friction', sev:4, source:'CONTEXT аналитика', where:'Все три (никто не заходит)'},
+          {name:'oki (34.2%) — педагоги не доходят', kind:'friction', sev:4, source:'CONTEXT аналитика', where:'Все три'},
+          {name:'99.7% отвал прямых визитов', kind:'friction', sev:4, source:'CONTEXT «Топ-пробои»', where:'Базовый — критично'}
+        ]},
+        {name:'Tier-2 · сильные', kind:'group', accent:'#e17055', children:[
+          {name:'Форма заявки длинная и сложная', kind:'friction', sev:5, source:'SEGMENT_BAZOVY', where:'Базовый'},
+          {name:'Скрытые комиссии на оплате', kind:'friction', sev:4, source:'SEGMENT_BAZOVY', where:'Базовый'},
+          {name:'Сбор денег через MAX без сводки', kind:'friction', sev:5, source:'SEGMENT_MASSOVY', where:'Массовый'},
+          {name:'Excel-копипаста на 20-40 учеников', kind:'friction', sev:5, source:'CONTEXT', where:'Массовый'},
+          {name:'Нет рейтинга жюри', kind:'friction', sev:5, source:'SEGMENT_PRODVINUTY', where:'Продвинутый'},
+          {name:'Логистика межгородних поездок', kind:'friction', sev:4, source:'SEGMENT_PRODVINUTY', where:'Продвинутый'},
+          {name:'Документы с родителями в MAX', kind:'friction', sev:4, source:'SEGMENT_MASSOVY/PRODVINUTY', where:'Массовый, продвинутый'},
+          {name:'Диплом без кнопки «поделиться»', kind:'friction', sev:4, source:'CONTEXT 6.4', where:'Продвинутый — критично'},
+          {name:'Нет единого места для дипломов', kind:'friction', sev:4, source:'CONTEXT', where:'Все три'}
+        ]},
+        {name:'Tier-3 · средние', kind:'group', accent:'#f39c12', children:[
+          {name:'Непонятный формат файла работ', kind:'friction', sev:3, source:'гипотеза', where:'Базовый'},
+          {name:'Нет шаблона коллектива', kind:'friction', sev:3, source:'гипотеза', where:'Массовый, продвинутый'},
+          {name:'Нет сводного календаря на год', kind:'friction', sev:3, source:'гипотеза', where:'Массовый, продвинутый'},
+          {name:'Нет обратной связи от жюри', kind:'friction', sev:3, source:'гипотеза', where:'Продвинутый'},
+          {name:'Нет AI-рекомендаций по жюри', kind:'friction', sev:3, source:'SEGMENT_PRODVINUTY', where:'Продвинутый'},
+          {name:'Рассылки теряются в спаме', kind:'friction', sev:3, source:'гипотеза', where:'Продвинутый'},
+          {name:'Долгое ожидание результатов', kind:'friction', sev:3, source:'CONTEXT + гип.', where:'Базовый — для доверия'}
+        ]}
+      ]},
+      {name:'Quick Wins · 1-2 недели', kind:'group', accent:'#00b894', children:[
+        {name:'QW-1 Email + SMS после оплаты', kind:'opp', effort:'1-2 дня', seg:'Все три', eff:'Снижает тревогу у всех: доверие для базового, минус звонки для массового, акты для продвинутого', owner:'Наталья + Вячеслав', due:'до 15.08.2026'},
+        {name:'QW-2 Excel-выгрузка заявок', kind:'opp', effort:'3-5 дней', seg:'Массовый (5), Продвинутый (5), Базовый (2)', eff:'Закрывает топ-боль CONTEXT, снижает фрустрацию на A.3 и B.5', owner:'Вячеслав', due:'до 25.08.2026'},
+        {name:'QW-3 Триггерное письмо через месяц', kind:'opp', effort:'1 день', seg:'Все три', eff:'Возвращает педагога, снижает 100% потерь повторных', owner:'Marketing lead + Наталья', due:'до 22.08.2026'},
+        {name:'QW-4 Кнопка «Поделиться в ВК»', kind:'opp', effort:'2-3 дня', seg:'Продвинутый (5), Массовый (3)', eff:'Маркетинговый эффект для студии; решает боль 6.4', owner:'Вячеслав + Marketing lead', due:'до 25.08.2026'},
+        {name:'QW-5 Блок «Проверено педагогами»', kind:'opp', effort:'1-2 дня', seg:'Все три', eff:'Снижает трение на этапе поиска (A.2)', owner:'Marketing lead + Наталья', due:'до 22.08.2026'},
+        {name:'Базовый: компактная форма 5-7 полей', kind:'opp', effort:'2-3 дня + юристы', seg:'Базовый', eff:'Убирает главный барьер входа', owner:'Вячеслав + Наталья', due:'до 30.08.2026'},
+        {name:'Массовый: шаблон «Мой коллектив»', kind:'opp', effort:'2 недели', seg:'Массовый', eff:'Экономит 4-6 часов в месяц, делает платформу незаменимой', owner:'Вячеслав + Наталья', due:'до 15.10.2026'},
+        {name:'Продвинутый: блок «Жюри конкурса»', kind:'opp', effort:'3-5 дней', seg:'Продвинутый', eff:'Закрывает главную фрустрацию сегмента', owner:'Вячеслав + Marketing lead', due:'до 15.09.2026'}
+      ]},
+      {name:'Strategic Bets · 3-6 мес', kind:'group', accent:'#0984e3', children:[
+        {name:'SB-1 ЛК педагога в my.артнавигатор.рф', kind:'opp', effort:'2-3 месяца', seg:'Все три', eff:'Дашборд «Мои заявки», массовая загрузка через Excel, конструктор документов, портфолио. Рост трафика my с 464 до десятков тысяч', owner:'Вячеслав + Юрий', due:'Q1 2027'},
+        {name:'SB-2 CRM + follow-up цепочки', kind:'opp', effort:'2-3 месяца', seg:'Все три', eff:'Снижает 100% потерь повторных, восстанавливает LTV', owner:'Вячеслав + Наталья', due:'Q1 2027'},
+        {name:'SB-3 Портфолио коллектива/студии', kind:'opp', effort:'3-4 месяца', seg:'Все три', eff:'Автоимпорт дипломов, теги, публичная страница. Закрывает боль «дипломы в папках»', owner:'Вячеслав + Арина', due:'Q2 2027'},
+        {name:'SB-4 Рекомендации + рейтинг жюри', kind:'opp', effort:'4-6 месяцев', seg:'Продвинутый (5), Массовый (4)', eff:'Уникальная фича, отстройка от FestRussia и art-center', owner:'Вячеслав + Юрий', due:'Q3 2027'},
+        {name:'Продвинутый: PRO-тариф с AI', kind:'opp', effort:'4-6 месяцев', seg:'Продвинутый', eff:'Монетизация премиум-сегмента', owner:'Юрий + Вячеслав', due:'Q3 2027'},
+        {name:'Базовый: линия поддержки в MAX', kind:'opp', effort:'1 месяц + оператор', seg:'Базовый', eff:'«Поможем подать заявку за 10 минут» — удержание мам-одиночек', owner:'Наталья + продажи', due:'до 30.11.2026'}
+      ]},
+      {name:'Roadmap', kind:'group', accent:'#8e44ad', children:[
+        {name:'Q3 2026 · фундамент', kind:'road', goal:'Закрыть Tier-1 friction, восстановить доверие всех сегментов', items:['Email/SMS после оплаты','Excel-выгрузка заявок','Триггерное письмо через месяц','Кнопка «Поделиться в ВК»','Блок «Проверено педагогами»'], metric:'Отвал «визит — карточка» с 70% до 60%, трафик my с 464 до 1000+'},
+        {name:'Q4 2026 · сегменты', kind:'road', goal:'Запустить премиум-слой для продвинутого, средний для массового', items:['Базовый: компактная форма + пресет-фильтр + чёткая цена','Массовый: шаблон коллектива + дипломы гос. образца','Продвинутый: блок жюри + бета PRO-тарифа'], metric:'Рост заявок от педагогов на 30%, первые платящие PRO'},
+        {name:'Q1-Q2 2027 · ставки', kind:'road', goal:'Закрепить лидерство уникальными фичами', items:['ЛК педагога (SB-1)','CRM и follow-up (SB-2)','Портфолио (SB-3)','Бета AI-рекомендаций жюри (SB-4)','Линия поддержки в MAX'], metric:'LTV-восстановление, десятки тысяч визитов my'}
+      ]}
+     ]}
+  ]
+};
+
+/* ============================ TREE INIT ============================ */
+let UID=0;
+function initNode(n, parent, depth){
+  n._id = 'n'+(UID++);
+  n._parent = parent;
+  n._depth = depth;
+  // collapsed by default for depth>=1 (only root children visible initially at depth1)
+  n._collapsed = depth >= 1;
+  if(n.children){ n.children.forEach(c=>initNode(c, n, depth+1)); }
+  return n;
+}
+initNode(DATA, null, 0);
+DATA._collapsed = false; // root always open
+
+/* index all nodes */
+const ALL=[];
+(function collect(n){ ALL.push(n); if(n.children) n.children.forEach(collect); })(DATA);
+
+/* ============================ LAYOUT ============================ */
+const RING = 210;
+let CX=0, CY=0;
+
+function visibleChildren(n){ return (n._collapsed||!n.children)?[]:n.children; }
+
+function countLeaves(n){
+  const k=visibleChildren(n);
+  if(!k.length){ n._leaves=1; return 1; }
+  let s=0; for(const c of k) s+=countLeaves(c);
+  n._leaves=s; return s;
+}
+
+function layout(n, a0, a1, depth){
+  n._depth=depth;
+  n._angle=(a0+a1)/2;
+  n._r = depth*RING;
+  n._x = CX + n._r*Math.cos(n._angle);
+  n._y = CY + n._r*Math.sin(n._angle);
+  const k=visibleChildren(n);
+  if(!k.length) return;
+  const total=k.reduce((s,c)=>s+c._leaves,0)||1;
+  let a=a0;
+  for(const c of k){
+    const span=(a1-a0)*(c._leaves/total);
+    layout(c, a, a+span, depth+1);
+    a+=span;
+  }
+}
+
+/* ============================ RENDER ============================ */
+const svg=document.getElementById('map');
+const SVGNS='http://www.w3.org/2000/svg';
+let view={x:-700,y:-450,w:1400,h:900};
+let selectedId=null;
+let matchIds=new Set();
+
+function nodeRadius(n){
+  if(n.kind==='root') return 34;
+  if(n._depth===1) return 20;
+  if(n.kind==='horizon'||n.kind==='group') return 14;
+  return 9;
+}
+function nodeColor(n){
+  if(n.kind==='root') return '#4834d4';
+  if(n.kind==='phase') return EMO[n.emotion]?EMO[n.emotion].color:'#b2bec3';
+  if(n.kind==='friction') return SEVCOLOR(n.sev);
+  if(n.accent) return n.accent;
+  // inherit segment accent
+  let p=n._parent; while(p){ if(p.accent) return p.accent; p=p._parent; }
+  return '#6c5ce7';
+}
+function branchAccent(n){
+  let p=n; while(p){ if(p.accent) return p.accent; p=p._parent; } return '#6c5ce7';
+}
+
+function setViewBox(){ svg.setAttribute('viewBox', `${view.x} ${view.y} ${view.w} ${view.h}`); }
+
+function render(){
+  countLeaves(DATA);
+  layout(DATA, -Math.PI/2, Math.PI*1.5, 0);
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+
+  const gEdges=document.createElementNS(SVGNS,'g');
+  const gNodes=document.createElementNS(SVGNS,'g');
+  svg.appendChild(gEdges); svg.appendChild(gNodes);
+
+  // visible nodes
+  const vis=[];
+  (function walk(n){ vis.push(n); visibleChildren(n).forEach(walk); })(DATA);
+
+  // edges
+  vis.forEach(n=>{
+    if(!n._parent) return;
+    const p=n._parent;
+    const path=document.createElementNS(SVGNS,'path');
+    const mx=(p._x+n._x)/2, my=(p._y+n._y)/2;
+    // control point pushed outward slightly for organic curve
+    const d=`M ${p._x} ${p._y} C ${mx} ${p._y}, ${mx} ${n._y}, ${n._x} ${n._y}`;
+    path.setAttribute('d',d);
+    path.setAttribute('class','edge'+((matchIds.size&&matchIds.has(n._id))?' hot':''));
+    path.setAttribute('stroke', branchAccent(n));
+    path.setAttribute('stroke-opacity', matchIds.size? (matchIds.has(n._id)?'0.9':'0.2') : '0.45');
+    gEdges.appendChild(path);
+  });
+
+  // nodes
+  vis.forEach(n=>{
+    const g=document.createElementNS(SVGNS,'g');
+    let cls='node';
+    if(n._id===selectedId) cls+=' selected';
+    if(matchIds.size){ cls+= matchIds.has(n._id)?' match':' dim'; }
+    g.setAttribute('class',cls);
+    g.setAttribute('transform',`translate(${n._x},${n._y})`);
+
+    const c=document.createElementNS(SVGNS,'circle');
+    const rad=nodeRadius(n);
+    c.setAttribute('r',rad);
+    c.setAttribute('fill',nodeColor(n));
+    g.appendChild(c);
+
+    const hasKids=n.children&&n.children.length;
+    if(hasKids){
+      const t=document.createElementNS(SVGNS,'text');
+      t.setAttribute('class', n._collapsed?'count':'toggle');
+      if(n._collapsed){ t.textContent=n.children.length; }
+      else { t.textContent='–'; }
+      g.appendChild(t);
+    }
+
+    // label
+    const label=document.createElementNS(SVGNS,'text');
+    const right = Math.cos(n._angle)>=-0.0001;
+    const off=rad+7;
+    if(n.kind==='root'){
+      label.setAttribute('text-anchor','middle');
+      label.setAttribute('y', -rad-10);
+      label.setAttribute('font-weight','800');
+      label.setAttribute('font-size','15');
+    } else {
+      label.setAttribute('text-anchor', right?'start':'end');
+      label.setAttribute('x', right?off:-off);
+      label.setAttribute('dominant-baseline','central');
+      if(n._depth===1){ label.setAttribute('font-weight','800'); label.setAttribute('font-size','13.5'); }
+      else if(n.kind==='horizon'||n.kind==='group'){ label.setAttribute('font-weight','700'); }
+    }
+    // multi-line root
+    const txt=n.name;
+    if(txt.indexOf('\n')>=0){
+      txt.split('\n').forEach((ln,i)=>{
+        const ts=document.createElementNS(SVGNS,'tspan');
+        ts.setAttribute('x', n.kind==='root'?0:(right?off:-off));
+        ts.setAttribute('dy', i===0?'0':'1.15em');
+        ts.textContent=ln; label.appendChild(ts);
+      });
+    } else {
+      label.textContent = txt.length>34? txt.slice(0,33)+'…' : txt;
+    }
+    g.appendChild(label);
+
+    // emotion mini-dot for phases
+    if(n.kind==='phase' && n.peak){
+      const star=document.createElementNS(SVGNS,'text');
+      star.setAttribute('text-anchor','middle');
+      star.setAttribute('y', -rad-4);
+      star.setAttribute('font-size','12');
+      star.setAttribute('stroke','none');
+      star.textContent='★';
+      star.setAttribute('fill','#e67e22');
+      g.appendChild(star);
+    }
+
+    g.addEventListener('click',(e)=>{ e.stopPropagation(); onNodeClick(n); });
+    gNodes.appendChild(g);
+  });
+
+  setViewBox();
+  renderStats();
+}
+
+/* ============================ INTERACTION ============================ */
+function onNodeClick(n){
+  selectedId=n._id;
+  if(n.children&&n.children.length){ n._collapsed=!n._collapsed; }
+  openDrawer(n);
+  render();
+}
+
+function expandPathTo(n){ let p=n._parent; while(p){ p._collapsed=false; p=p._parent; } }
+
+function setAll(collapsed){
+  ALL.forEach(n=>{ if(n.children&&n.children.length) n._collapsed=collapsed; });
+  DATA._collapsed=false;
+  render();
+}
+
+/* ---- drawer ---- */
+const drawer=document.getElementById('drawer');
+const dHead=document.getElementById('drawerHead');
+const dBody=document.getElementById('drawerBody');
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function openDrawer(n){
+  const accent=branchAccent(n);
+  let kicker='', body='';
+  if(n.kind==='root'){
+    kicker='Обзор';
+    body=`<div class="field"><div class="val">Интерактивная карта пути педагога АртНавигатор по трём сегментам и трём горизонтам. Кликайте узлы, чтобы раскрывать ветки. Пики боли отмечены ★.</div></div>
+    <div class="field"><div class="lbl">Как читать</div><ul>
+    <li>Цвет фазы — эмоция (см. легенду сверху)</li>
+    <li>Красные узлы в «Стратегии» — severity фрикции</li>
+    <li>★ — эмоциональный пик горизонта</li></ul></div>`;
+  } else if(n.kind==='segment'||n.kind==='strategy'){
+    kicker = n.kind==='segment'?'Сегмент':'Стратегия';
+    body=`<div class="field"><div class="val">${esc(n.tagline||'')}</div></div>`;
+  } else if(n.kind==='persona'){
+    kicker='Персона';
+    body=`<div class="field"><div class="lbl">Демография</div><ul>${n.demo.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="field"><div class="lbl">Цели</div><ul>${n.goals.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="field"><div class="lbl">Фрустрации</div><ul>${n.frustr.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="field"><div class="lbl">Цитата</div><div class="quote">${esc(n.quote)}</div></div>`;
+  } else if(n.kind==='horizon'){
+    kicker='Горизонт';
+    const ph=n.children||[];
+    body=`<div class="field"><div class="val">${ph.length} фаз. Средняя интенсивность пиков: ${(ph.reduce((s,p)=>s+p.intensity,0)/ph.length).toFixed(1)} из 5.</div></div>
+    <div class="field"><div class="lbl">Фазы</div><ul>${ph.map(p=>`<li>${esc(p.name)} — ${EMO[p.emotion].label} ${p.intensity}${p.peak?' ★':''}</li>`).join('')}</ul></div>`;
+  } else if(n.kind==='phase'){
+    kicker='Фаза пути';
+    const e=EMO[n.emotion];
+    body=`<div class="field"><span class="badge" style="background:${e.color};color:#1a1f3a;">${esc(e.label)} · ${n.intensity}/5${n.peak?' ★ пик':''}</span>
+      <div class="ibar"><i style="width:${n.intensity/5*100}%;background:${e.color};"></i></div></div>
+      <div class="field"><div class="lbl">Боль</div><div class="pain">${esc(n.pain)}</div></div>`;
+    if(n.opp){ body+=`<div class="field"><div class="lbl">Возможность</div><div class="opp">${esc(n.opp)}</div></div>`; }
+  } else if(n.kind==='group'){
+    kicker='Блок';
+    const cnt=(n.children||[]).length;
+    body=`<div class="field"><div class="val">${cnt} пунктов. Раскройте узел на карте для деталей.</div></div>`;
+  } else if(n.kind==='friction'){
+    kicker='Критическая фрикция';
+    body=`<div class="field"><span class="sev" style="background:${SEVCOLOR(n.sev)};">Severity ${n.sev}/5</span></div>
+    <div class="field"><div class="lbl">Где болит</div><div class="val">${esc(n.where)}</div></div>
+    <div class="field"><div class="lbl">Источник</div><div class="val">${esc(n.source)}</div></div>`;
+  } else if(n.kind==='opp'){
+    kicker='Возможность';
+    body=`<div class="field"><div class="lbl">Сегменты</div><div class="val">${esc(n.seg)}</div></div>
+    <div class="field"><div class="lbl">Эффект</div><div class="opp">${esc(n.eff)}</div></div>
+    <div class="field"><div class="lbl">Трудозатраты</div><div class="val">${esc(n.effort)}</div></div>
+    <div class="field"><div class="lbl">Ответственный / срок</div><div class="val">${esc(n.owner)} · ${esc(n.due)}</div></div>`;
+  } else if(n.kind==='road'){
+    kicker='Roadmap';
+    body=`<div class="field"><div class="lbl">Цель</div><div class="val">${esc(n.goal)}</div></div>
+    <div class="field"><div class="lbl">Состав</div><ul>${n.items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="field"><div class="lbl">Метрика успеха</div><div class="opp">${esc(n.metric)}</div></div>`;
+  }
+  dHead.style.background=accent;
+  dHead.innerHTML=`<button class="close" id="dClose">×</button><div class="kicker">${esc(kicker)}</div><h2>${esc(n.name.replace(/\n/g,' '))}</h2>`;
+  dBody.innerHTML=body;
+  document.getElementById('dClose').onclick=()=>drawer.classList.remove('open');
+  drawer.classList.add('open');
+}
+
+/* ---- search ---- */
+function nodeText(n){
+  let t=[n.name];
+  if(n.pain)t.push(n.pain); if(n.opp)t.push(n.opp); if(n.tagline)t.push(n.tagline);
+  if(n.where)t.push(n.where); if(n.eff)t.push(n.eff); if(n.seg)t.push(n.seg);
+  if(n.goal)t.push(n.goal); if(n.quote)t.push(n.quote);
+  if(n.demo)t=t.concat(n.demo); if(n.goals)t=t.concat(n.goals); if(n.frustr)t=t.concat(n.frustr);
+  if(n.items)t=t.concat(n.items);
+  return t.join(' ').toLowerCase();
+}
+const searchEl=document.getElementById('search');
+searchEl.addEventListener('input',()=>{
+  const q=searchEl.value.trim().toLowerCase();
+  matchIds=new Set();
+  if(q.length>=2){
+    ALL.forEach(n=>{ if(nodeText(n).includes(q)){ matchIds.add(n._id); expandPathTo(n); } });
+    // also mark ancestors as visible+matched-path (not dimmed): add ancestors to matchIds so they aren't dimmed
+    const withAnc=new Set(matchIds);
+    matchIds.forEach(id=>{ const n=ALL.find(x=>x._id===id); let p=n._parent; while(p){ withAnc.add(p._id); p=p._parent; } });
+    matchIds=withAnc;
+  }
+  render();
+});
+
+/* ---- pan & zoom ---- */
+let dragging=false, lastX=0, lastY=0, moved=false;
+svg.addEventListener('mousedown',e=>{ dragging=true; moved=false; lastX=e.clientX; lastY=e.clientY; svg.classList.add('grabbing'); });
+window.addEventListener('mousemove',e=>{
+  if(!dragging) return;
+  const dx=(e.clientX-lastX), dy=(e.clientY-lastY);
+  if(Math.abs(dx)+Math.abs(dy)>3) moved=true;
+  const scale=view.w/svg.clientWidth;
+  view.x-=dx*scale; view.y-=dy*scale;
+  lastX=e.clientX; lastY=e.clientY; setViewBox();
+});
+window.addEventListener('mouseup',()=>{ dragging=false; svg.classList.remove('grabbing'); });
+svg.addEventListener('click',()=>{ /* background click: nothing */ });
+
+svg.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const rect=svg.getBoundingClientRect();
+  const mx=view.x+(e.clientX-rect.left)/rect.width*view.w;
+  const my=view.y+(e.clientY-rect.top)/rect.height*view.h;
+  const f=e.deltaY<0?0.86:1.16;
+  const nw=Math.min(6000,Math.max(300,view.w*f));
+  const nh=nw*(view.h/view.w);
+  view.x=mx-(mx-view.x)*(nw/view.w);
+  view.y=my-(my-view.y)*(nh/view.h);
+  view.w=nw; view.h=nh; setViewBox();
+},{passive:false});
+
+/* touch pan/zoom (basic) */
+let tLast=null, tDist=null;
+svg.addEventListener('touchstart',e=>{
+  if(e.touches.length===1){ tLast={x:e.touches[0].clientX,y:e.touches[0].clientY}; }
+  else if(e.touches.length===2){ tDist=touchDist(e); }
+},{passive:false});
+svg.addEventListener('touchmove',e=>{
+  e.preventDefault();
+  if(e.touches.length===1&&tLast){
+    const dx=e.touches[0].clientX-tLast.x, dy=e.touches[0].clientY-tLast.y;
+    const scale=view.w/svg.clientWidth; view.x-=dx*scale; view.y-=dy*scale;
+    tLast={x:e.touches[0].clientX,y:e.touches[0].clientY}; setViewBox();
+  } else if(e.touches.length===2&&tDist){
+    const nd=touchDist(e); const f=tDist/nd;
+    const nw=Math.min(6000,Math.max(300,view.w*f)); const nh=nw*(view.h/view.w);
+    view.x+= (view.w-nw)/2; view.y+=(view.h-nh)/2; view.w=nw; view.h=nh; tDist=nd; setViewBox();
+  }
+},{passive:false});
+function touchDist(e){const a=e.touches[0],b=e.touches[1];return Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);}
+
+/* fit view to visible content */
+function fitView(){
+  const vis=[]; (function walk(n){ vis.push(n); visibleChildren(n).forEach(walk); })(DATA);
+  let minX=1e9,minY=1e9,maxX=-1e9,maxY=-1e9;
+  vis.forEach(n=>{ minX=Math.min(minX,n._x); minY=Math.min(minY,n._y); maxX=Math.max(maxX,n._x); maxY=Math.max(maxY,n._y); });
+  const pad=260;
+  minX-=pad;minY-=pad;maxX+=pad;maxY+=pad;
+  const w=Math.max(600,maxX-minX), h=Math.max(400,maxY-minY);
+  const ar=svg.clientWidth/svg.clientHeight;
+  let vw=w, vh=h;
+  if(w/h>ar){ vh=w/ar; } else { vw=h*ar; }
+  view.x=(minX+maxX)/2 - vw/2;
+  view.y=(minY+maxY)/2 - vh/2;
+  view.w=vw; view.h=vh; setViewBox();
+}
+
+/* buttons */
+document.getElementById('expandAll').onclick=()=>{ setAll(false); fitView(); };
+document.getElementById('collapseAll').onclick=()=>{ setAll(true); fitView(); };
+document.getElementById('reset').onclick=()=>{ searchEl.value=''; matchIds=new Set(); setAll(true); selectedId=null; drawer.classList.remove('open'); fitView(); };
+document.getElementById('zin').onclick=()=>{ zoomStep(0.8); };
+document.getElementById('zout').onclick=()=>{ zoomStep(1.25); };
+document.getElementById('zfit').onclick=fitView;
+function zoomStep(f){ const cx=view.x+view.w/2, cy=view.y+view.h/2; view.w*=f; view.h*=f; view.x=cx-view.w/2; view.y=cy-view.h/2; setViewBox(); }
+
+/* stats + legend */
+function renderStats(){
+  const segs=DATA.children.filter(c=>c.kind==='segment').length;
+  const phases=ALL.filter(n=>n.kind==='phase').length;
+  const fr=ALL.filter(n=>n.kind==='friction').length;
+  const opp=ALL.filter(n=>n.kind==='opp').length;
+  document.getElementById('stats').innerHTML=
+    `<span>${segs} сегмента</span><span>3 горизонта</span><span>${phases} фаз пути</span><span>${fr} фрикций</span><span>${opp} возможностей</span>`;
+}
+(function legend(){
+  const order=['confused','anxious','frustrated','hopeful','confident','proud'];
+  document.getElementById('legend').innerHTML=order.map(k=>
+    `<span class="lg"><span class="dot" style="background:${EMO[k].color}"></span>${EMO[k].label}</span>`).join('')
+    +`<span class="lg"><span class="dot" style="background:#d63031"></span>severity</span>`;
+})();
+
+/* init */
+render();
+fitView();
+window.addEventListener('resize',()=>{ setViewBox(); });
 </script>
 </body>
 </html>
