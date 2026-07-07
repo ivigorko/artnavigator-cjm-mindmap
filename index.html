@@ -2,426 +2,198 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>АртНавигатор — Mind Map педагога</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>АртНавигатор — CJM Mind Map (7 ролей)</title>
 <style>
-* { box-sizing: border-box; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f4f5fa; }
-.wrap { overflow: auto; max-width: 100%; }
-svg { display: block; min-width: 100%; }
-.modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15,15,30,0.5); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
-.modal.active { display: flex; }
-.modal-content { background: #fff; border-radius: 12px; max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-.modal-header { padding: 20px 28px; border-bottom: 2px solid #4834d4; display: flex; justify-content: space-between; align-items: center; }
-.modal-header h2 { margin: 0; font-size: 18px; color: #1a1f3a; }
-.modal-close { background: none; border: none; font-size: 28px; cursor: pointer; color: #6c7393; line-height: 1; padding: 0; width: 32px; height: 32px; }
-.modal-close:hover { color: #1a1f3a; }
-.modal-body { padding: 20px 28px; }
-.step-num { display: inline-block; font-size: 11px; font-weight: 700; color: #6c5ce7; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
-.field { margin-bottom: 18px; }
-.field-label { font-size: 10px; font-weight: 700; color: #6c5ce7; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 5px; }
-.field-value { font-size: 13px; line-height: 1.55; color: #2d3142; white-space: pre-wrap; }
-.emotion-badge { display: inline-block; background: #6c5ce7; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-bottom: 10px; }
-.pain-item { background: #fff5f3; border-left: 3px solid #ff7675; padding: 10px 14px; border-radius: 0 6px 6px 0; margin-bottom: 6px; font-size: 13px; }
-.pain-item::before { content: '!'; color: #ff7675; font-weight: 700; margin-right: 8px; }
-.opp-item { background: #f0fff4; border-left: 3px solid #00b894; padding: 10px 14px; border-radius: 0 6px 6px 0; margin-bottom: 6px; font-size: 13px; }
-.opp-item::before { content: '+'; color: #00b894; font-weight: 700; margin-right: 8px; }
-.thought-item { padding: 4px 0; font-size: 13px; line-height: 1.5; }
-.thought-item::before { content: '"'; color: #6c5ce7; font-weight: 700; margin-right: 2px; }
-.thought-item::after { content: '"'; color: #6c5ce7; font-weight: 700; margin-left: 2px; }
-.hint { position: fixed; bottom: 20px; right: 20px; background: #4834d4; color: #fff; padding: 10px 16px; border-radius: 8px; font-size: 13px; box-shadow: 0 4px 16px rgba(72,52,212,0.3); }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Helvetica Neue",Arial,sans-serif;background:linear-gradient(135deg,#f4f5fa 0%,#ecf0fa 100%);color:#1a1f3a;min-height:100vh;line-height:1.5}
+header{background:linear-gradient(135deg,#1a1f3a 0%,#2d2270 100%);color:#fff;padding:18px 36px;box-shadow:0 3px 16px rgba(0,0,0,.12)}
+header h1{font-size:22px;font-weight:700;letter-spacing:-.3px}
+header .subtitle{font-size:13px;opacity:.88;margin-top:3px}
+header .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;font-size:11px}
+header .meta span{background:rgba(255,255,255,.12);padding:4px 10px;border-radius:12px}
+.canvas-wrap{display:flex;align-items:center;justify-content:center;padding:24px;min-height:calc(100vh - 160px)}
+svg{display:block;background:#fff;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.08);max-width:100%;height:auto}
+.connector{fill:none;stroke-width:4;opacity:.55}
+.node{cursor:pointer;transition:all .2s}
+.node:hover rect{stroke-width:6}
+.node:hover .root-rect{filter:url(#shadow)}
+.node:hover .branch-rect{filter:url(#branchShadow)}
+.root-rect{fill:#1a1f3a;stroke:#2d2270;stroke-width:4;rx:24;filter:url(#shadow)}
+.root-text{font-size:26px;fill:#fff;font-weight:800;text-anchor:middle}
+.root-sub{font-size:13px;fill:rgba(255,255,255,.78);text-anchor:middle}
+.branch-rect{stroke-width:4;rx:18;filter:url(#branchShadow)}
+.branch-title{font-size:22px;fill:#fff;font-weight:700;text-anchor:middle}
+.branch-sub{font-size:13px;fill:rgba(255,255,255,.88);text-anchor:middle}
+.branch-num{font-size:13px;fill:rgba(255,255,255,.65);font-weight:700;text-anchor:middle;letter-spacing:2px}
+.branch-num-dark{font-size:13px;fill:rgba(26,31,58,.55);font-weight:700;text-anchor:middle;letter-spacing:2px}
+.branch-sub-dark{font-size:13px;fill:rgba(26,31,58,.85);text-anchor:middle}
+.title-svg{font-size:30px;fill:#1a1f3a;text-anchor:middle;font-weight:800}
+.subtitle-svg{font-size:14px;fill:#6c7393;text-anchor:middle}
+.legend-text{font-size:12px;fill:#6c7393}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,15,40,.6);z-index:1000;padding:20px;overflow-y:auto}
+.modal-overlay.active{display:flex;align-items:flex-start;justify-content:center}
+.modal-card{background:#fff;border-radius:14px;width:100%;max-width:1180px;margin:20px auto;box-shadow:0 24px 80px rgba(0,0,0,.4);overflow:hidden}
+.modal-head{padding:22px 32px;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.modal-head h2{font-size:22px;font-weight:700}
+.modal-head .num{font-size:11px;letter-spacing:2px;text-transform:uppercase;opacity:.85;margin-bottom:4px}
+.modal-head .desc{font-size:13px;opacity:.85;margin-top:4px}
+.modal-close{background:rgba(255,255,255,.15);border:none;color:#fff;font-size:24px;cursor:pointer;width:36px;height:36px;border-radius:8px;line-height:1;flex-shrink:0}
+.modal-close:hover{background:rgba(255,255,255,.3)}
+.modal-body{padding:28px 32px;max-height:72vh;overflow-y:auto}
+.modal-body h3{font-size:17px;color:#1a1f3a;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid #4834d4}
+.modal-body h3:first-child{margin-top:0}
+.modal-body h4{font-size:14px;color:#4834d4;margin:14px 0 6px;font-weight:700}
+.modal-body p{font-size:13px;line-height:1.55;color:#2d3142;margin-bottom:8px}
+.modal-body table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
+.modal-body table th{background:#4834d4;color:#fff;padding:8px 10px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.modal-body table td{padding:8px 10px;border-bottom:1px solid #e1e4ed;vertical-align:top}
+.modal-body table tr:nth-child(even) td{background:#f8f9fc}
+.modal-body ul{padding-left:22px;margin:6px 0 12px}
+.modal-body li{font-size:13px;line-height:1.5;margin:4px 0;color:#2d3142}
+.modal-body .pain{background:#fff5f3;border-left:3px solid #ff7675;padding:10px 14px;margin:6px 0;font-size:13px;border-radius:0 6px 6px 0}
+.modal-body .pain::before{content:"! ";color:#ff7675;font-weight:700}
+.modal-body .opp{background:#f0fff4;border-left:3px solid #00b894;padding:10px 14px;margin:6px 0;font-size:13px;border-radius:0 6px 6px 0}
+.modal-body .opp::before{content:"+ ";color:#00b894;font-weight:700}
+.modal-body .quote{background:#f8f9fc;border-left:3px solid #6c5ce7;padding:10px 14px;margin:8px 0;font-style:italic;font-size:13px}
+.modal-body .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:10px 0}
+.modal-body .stat{background:#f8f9fc;padding:10px 14px;border-radius:8px;border:1px solid #e1e4ed}
+.modal-body .stat .v{font-size:18px;font-weight:700;color:#4834d4}
+.modal-body .stat .l{font-size:11px;color:#6c7393;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+footer{background:#1a1f3a;color:#6c7393;padding:10px 36px;font-size:11px;text-align:center}
+.hint{position:fixed;bottom:18px;right:18px;background:#4834d4;color:#fff;padding:10px 16px;border-radius:10px;font-size:12px;box-shadow:0 4px 16px rgba(72,52,212,.4);z-index:50}
 </style>
 </head>
 <body>
-<div class="wrap">
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1700" width="2400" height="1700" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif">
+<header>
+  <h1>АртНавигатор — Полная CJM Mind Map</h1>
+  <div class="subtitle">7 ролей пользователей · 3 time horizon · 144 680 визитов/год — кликни на ветвь для деталей</div>
+  <div class="meta">
+    <span>v1.1 · июль 2026</span>
+    <span>Каналы РФ 2026 (MAX / VK)</span>
+    <span>Источник: CJM_Pedagog + CONTEXT</span>
+  </div>
+</header>
+
+<div class="canvas-wrap">
+<svg id="mindmap" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" width="1600" height="1200" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif">
 <defs>
 <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
-<feOffset dx="0" dy="2"/>
-<feComponentTransfer><feFuncA type="linear" slope="0.2"/></feComponentTransfer>
-<feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+  <feGaussianBlur in="SourceAlpha" stdDeviation="6"/><feOffset dx="0" dy="4"/><feComponentTransfer><feFuncA type="linear" slope=".25"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
 </filter>
-<style>
-.node { cursor: pointer; }
-.node:hover rect { stroke-width: 3; }
-.node-rect { fill: #fff; stroke-width: 2; rx: 8; }
-.node-text { font-size: 13px; fill: #1a1f3a; text-anchor: middle; dominant-baseline: middle; }
-.node-sub { font-size: 11px; fill: #6c7393; text-anchor: middle; dominant-baseline: middle; }
-.connector { fill: none; stroke-width: 1.5; opacity: 0.55; }
-.root-rect { fill: #4834d4; stroke: #2d2270; stroke-width: 2; rx: 12; }
-.root-text { font-size: 16px; fill: #fff; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
-.root-sub { font-size: 12px; fill: #d0d8e8; text-anchor: middle; dominant-baseline: middle; }
-.horizon-rect { stroke-width: 3; rx: 10; }
-.horizon-text { font-size: 15px; fill: #fff; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
-.horizon-sub { font-size: 11px; fill: rgba(255,255,255,0.85); text-anchor: middle; dominant-baseline: middle; }
-.phase-rect { stroke-width: 1.5; rx: 6; }
-.phase-text { font-size: 12px; fill: #1a1f3a; text-anchor: middle; dominant-baseline: middle; font-weight: 600; }
-.step-rect { fill: #f8f9fc; stroke-width: 1; rx: 4; }
-.step-text { font-size: 11px; fill: #4a5072; text-anchor: middle; dominant-baseline: middle; }
-.title { font-size: 26px; fill: #1a1f3a; text-anchor: middle; font-weight: 700; }
-.subtitle { font-size: 14px; fill: #6c7393; text-anchor: middle; }
-.legend { font-size: 12px; fill: #6c7393; }
-</style>
+<filter id="branchShadow" x="-50%" y="-50%" width="200%" height="200%">
+  <feGaussianBlur in="SourceAlpha" stdDeviation="4"/><feOffset dx="0" dy="3"/><feComponentTransfer><feFuncA type="linear" slope=".2"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
 </defs>
 
-<!-- Header -->
-<text x="1200" y="50" class="title">АртНавигатор — Customer Journey Map педагога (Массовый сегмент)</text>
-<text x="1200" y="80" class="subtitle">Полный путь клиента · 38 шагов · 3 time horizon · Кликни на любой шаг чтобы увидеть детали</text>
-<g class="node root-node">
-  <rect x="130" y="800" width="240" height="100" class="root-rect" filter="url(#shadow)"/>
-  <text x="250" y="840" class="root-text">Елена, 47 лет</text>
-  <text x="250" y="862" class="root-text">Хоровой коллектив</text>
-  <text x="250" y="882" class="root-text">ДК, Калуга</text>
-  <text x="250" y="902" class="root-sub">Массовый педагог</text>
-</g><g class="node horizon-node">
-    <rect x="540" y="310" width="280" height="80" class="horizon-rect" fill="#6c5ce7" filter="url(#shadow)"/>
-    <text x="680" y="338" class="horizon-text">Один конкурс</text>
-    <text x="680" y="362" class="horizon-sub">(2-8 нед) · 14 шагов</text>
-  </g><path class="connector" stroke="#6c5ce7" d="M 370 850 C 455 850, 455 350, 540 350"/><g class="node phase-node">
-      <rect x="920" y="115" width="240" height="50" class="phase-rect" stroke="#6c5ce7" fill="#fff"/>
-      <text x="1040" y="146" class="phase-text">Осознание потребности</text>
-    </g><path class="connector" stroke="#6c5ce7" d="M 820 350 C 870 350, 870 140, 920 140"/><g class="node step-node" data-step-id="A1.1">
-          <rect x="1240" y="95" width="280" height="40" class="step-rect" stroke="#6c5ce7"/>
-          <text x="1248" y="111" class="step-text" text-anchor="start" style="font-weight: 600; fill: #6c5ce7;">A1.1</text>
-          <text x="1290" y="111" class="step-text" text-anchor="start" style="font-size: 11px;">Триггер - "коллективу нужна внешняя ...</text>
-          <text x="1248" y="127" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">личная беседа с завучем / разговор с родителями на...</text>
-        </g><path class="connector" stroke="#6c5ce7" d="M 1160 140 C 1200 140, 1200 115, 1240 115"/><g class="node step-node" data-step-id="A1.2">
-          <rect x="1240" y="145" width="280" height="40" class="step-rect" stroke="#6c5ce7"/>
-          <text x="1248" y="161" class="step-text" text-anchor="start" style="font-weight: 600; fill: #6c5ce7;">A1.2</text>
-          <text x="1290" y="161" class="step-text" text-anchor="start" style="font-size: 11px;">Формулирование критериев выбора</text>
-          <text x="1248" y="177" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">заметки в телефоне / блокнот на столе / обсуждение...</text>
-        </g><path class="connector" stroke="#6c5ce7" d="M 1160 140 C 1200 140, 1200 165, 1240 165"/><g class="node phase-node">
-      <rect x="920" y="185" width="240" height="50" class="phase-rect" stroke="#6c5ce7" fill="#fff"/>
-      <text x="1040" y="216" class="phase-text">Поиск и сравнение</text>
-    </g><path class="connector" stroke="#6c5ce7" d="M 820 350 C 870 350, 870 210, 920 210"/><g class="node step-node" data-step-id="A2.1">
-          <rect x="1240" y="165" width="280" height="40" class="step-rect" stroke="#6c5ce7"/>
-          <text x="1248" y="181" class="step-text" text-anchor="start" style="font-weight: 600; fill: #6c5ce7;">A2.1</text>
-          <text x="1290" y="181" class="step-text" text-anchor="start" style="font-size: 11px;">Поиск через Яндекс и обход сайтов</text>
-          <text x="1248" y="197" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">Яндекс.Поиск - "детские конкурсы хоровых коллектив...</text>
-        </g><path class="connector" stroke="#6c5ce7" d="M 1160 210 C 1200 210, 1200 185, 1240 185"/><g class="node step-node" data-step-id="A2.2">
-          <rect x="1240" y="215" width="280" height="40" class="step-rect" stroke="#6c5ce7"/>
-          <text x="1248" y="231" class="step-text" text-anchor="start" style="font-weight: 600; fill: #6c5ce7;">A2.2</text>
-          <text x="1290" y="231" class="step-text" text-anchor="start" style="font-size: 11px;">Сравнение вариантов в агрегаторе Art...</text>
-          <text x="1248" y="247" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">events.артнавигатор.рф - фильтры по типу коллектив...</text>
-        </g><path class="connector" stroke="#6c5ce7" d="M 1160 210 C 1200 210, 1200 235, 1240 235"/><g class="node phase-node">
-      <rect x="920" y="255" width="240" height="50" class="phase-rect" stroke="#6c5ce7" fill="#fff"/>
-      <text x="1040" y="286" class="phase-text">Подготовка заявок</text>
-    </g><path class="connector" stroke="#6c5ce7" d="M 820 350 C 870 350, 870 280, 920 280"/><g class="node step-node" data-step-id="A3.1">
-          <rect x="1240" y="235" width="280" height="40" class="step-rect" stroke="#6c5ce7"/>
-          <text x="1248" y="251" class="step-text" text-anchor="start" style="font-weight: 600; fill: #6c5ce7;">A3.1</text>
-          <text x="1290" y="251" class="step-text" text-anchor="start" style="font-size: 11px;">Сбор данных учеников</text>
-          <text x="1248" y="267" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">школьная база 1С / журнал / Excel по классу + анке...</text>
-        </g><path class="connector" stroke="#6c5ce7" d="M 1160 280 C 1200 280, 1200 255, 1240 255"/><g class="node step-node" data-step-id="A3.2">
-          <rect x="1240" y="285" width="280" height="40" class="step-rect" stroke="#6c5ce7"/>
-          <text x="1248" y="301" class="step-text" text-anchor="start" style="font-weight: 600; fill: #6c5ce7;">A3.2</text>
-          <text x="1290" y="301" class="step-text" text-anchor="start" style="font-size: 11px;">Заполнение формы заявки</text>
-          <text x="1248" y="317" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">форма заявки на events.артнавигатор.рф - "Подать з...</text>
-        </g><path class="connector" stroke="#6c5ce7" d="M 1160 280 C 1200 280, 1200 305, 1240 305"/><g class="node phase-node">
-      <rect x="920" y="325" width="240" height="50" class="phase-rect" stroke="#6c5ce7" fill="#fff"/>
-      <text x="1040" y="356" class="phase-text">Сбор денег и оплата</text>
-    </g><path class="connector" stroke="#6c5ce7" d="M 820 350 C 870 350, 870 350, 920 350"/><g class="node step-node" data-step-id="A4.1">
-          <rect x="1240" y="305" width="280" height="40" class="step-rect" stroke="#6c5ce7"/>
-          <text x="1248" y="321" class="step-text" text-anchor="start" style="font-weight: 600; fill: #6c5ce7;">A4.1</text>
-          <text x="1290" y="321" class="step-text" text-anchor="start" style="font-size: 11px;">Сбор денег с родителей</text>
-          <text x="1248" y="337" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">MAX-чат родителей / сообщение в родительский чат в...</text>
-        </g><path class="connector" stroke="#6c5ce7" d="M 1160 350 C 1200 350, 1200 325, 1240 325"/><g class="node step-node" data-step-id="A4.2">
-          <rect x="1240" y="355" width="280" height="40" class="step-rect" stroke="#6c5ce7"/>
-          <text x="1248" y="371" class="step-text" text-anchor="start" style="font-weight: 600; fill: #6c5ce7;">A4.2</text>
-          <text x="1290" y="371" class="step-text" text-anchor="start" style="font-size: 11px;">Оплата на платформе</text>
-          <text x="1248" y="387" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">форма оплаты Т-Кассы на events.артнавигатор.рф...</text>
-        </g><path class="connector" stroke="#6c5ce7" d="M 1160 350 C 1200 350, 1200 375, 1240 375"/><g class="node phase-node">
-      <rect x="920" y="395" width="240" height="50" class="phase-rect" stroke="#6c5ce7" fill="#fff"/>
-      <text x="1040" y="426" class="phase-text">Участие коллектива</text>
-    </g><path class="connector" stroke="#6c5ce7" d="M 820 350 C 870 350, 870 420, 920 420"/><g class="node step-node" data-step-id="A5.1">
-          <rect x="1240" y="375" width="280" height="40" class="step-rect" stroke="#6c5ce7"/>
-          <text x="1248" y="391" class="step-text" text-anchor="start" style="font-weight: 600; fill: #6c5ce7;">A5.1</text>
-          <text x="1290" y="391" class="step-text" text-anchor="start" style="font-size: 11px;">Репетиции и подготовка номеров</text>
-          <text x="1248" y="407" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">ДК / школа - репетиционный зал + домашние задания ...</text>
-        </g><path class="connector" stroke="#6c5ce7" d="M 1160 420 C 1200 420, 1200 395, 1240 395"/><g class="node step-node" data-step-id="A5.2">
-          <rect x="1240" y="425" width="280" height="40" class="step-rect" stroke="#6c5ce7"/>
-          <text x="1248" y="441" class="step-text" text-anchor="start" style="font-weight: 600; fill: #6c5ce7;">A5.2</text>
-          <text x="1290" y="441" class="step-text" text-anchor="start" style="font-size: 11px;">Участие в конкурсе</text>
-          <text x="1248" y="457" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">площадка конкурса (очно или онлайн-платформа орган...</text>
-        </g><path class="connector" stroke="#6c5ce7" d="M 1160 420 C 1200 420, 1200 445, 1240 445"/><g class="node phase-node">
-      <rect x="920" y="465" width="240" height="50" class="phase-rect" stroke="#6c5ce7" fill="#fff"/>
-      <text x="1040" y="496" class="phase-text">Получение диплома</text>
-    </g><path class="connector" stroke="#6c5ce7" d="M 820 350 C 870 350, 870 490, 920 490"/><g class="node step-node" data-step-id="A6.1">
-          <rect x="1240" y="445" width="280" height="40" class="step-rect" stroke="#6c5ce7"/>
-          <text x="1248" y="461" class="step-text" text-anchor="start" style="font-weight: 600; fill: #6c5ce7;">A6.1</text>
-          <text x="1290" y="461" class="step-text" text-anchor="start" style="font-size: 11px;">Скачивание и проверка дипломов</text>
-          <text x="1248" y="477" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">ЛК на oki.артнавигатор.рф (энциклопедия достижений...</text>
-        </g><path class="connector" stroke="#6c5ce7" d="M 1160 490 C 1200 490, 1200 465, 1240 465"/><g class="node step-node" data-step-id="A6.2">
-          <rect x="1240" y="495" width="280" height="40" class="step-rect" stroke="#6c5ce7"/>
-          <text x="1248" y="511" class="step-text" text-anchor="start" style="font-weight: 600; fill: #6c5ce7;">A6.2</text>
-          <text x="1290" y="511" class="step-text" text-anchor="start" style="font-size: 11px;">Рассылка дипломов родителям</text>
-          <text x="1248" y="527" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">MAX-чат с родителями + email...</text>
-        </g><path class="connector" stroke="#6c5ce7" d="M 1160 490 C 1200 490, 1200 515, 1240 515"/><g class="node phase-node">
-      <rect x="920" y="535" width="240" height="50" class="phase-rect" stroke="#6c5ce7" fill="#fff"/>
-      <text x="1040" y="566" class="phase-text">Рефлексия</text>
-    </g><path class="connector" stroke="#6c5ce7" d="M 820 350 C 870 350, 870 560, 920 560"/><g class="node step-node" data-step-id="A7.1">
-          <rect x="1240" y="515" width="280" height="40" class="step-rect" stroke="#6c5ce7"/>
-          <text x="1248" y="531" class="step-text" text-anchor="start" style="font-weight: 600; fill: #6c5ce7;">A7.1</text>
-          <text x="1290" y="531" class="step-text" text-anchor="start" style="font-size: 11px;">Отчёт директору и в портфолио учрежд...</text>
-          <text x="1248" y="547" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">бумажный отчёт директору + разговор на планёрке...</text>
-        </g><path class="connector" stroke="#6c5ce7" d="M 1160 560 C 1200 560, 1200 535, 1240 535"/><g class="node step-node" data-step-id="A7.2">
-          <rect x="1240" y="565" width="280" height="40" class="step-rect" stroke="#6c5ce7"/>
-          <text x="1248" y="581" class="step-text" text-anchor="start" style="font-weight: 600; fill: #6c5ce7;">A7.2</text>
-          <text x="1290" y="581" class="step-text" text-anchor="start" style="font-size: 11px;">Решение - идти на следующий конкурс ...</text>
-          <text x="1248" y="597" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">обсуждение с коллегами в учительской / внутренний ...</text>
-        </g><path class="connector" stroke="#6c5ce7" d="M 1160 560 C 1200 560, 1200 585, 1240 585"/><g class="node horizon-node">
-    <rect x="540" y="810" width="280" height="80" class="horizon-rect" fill="#4834d4" filter="url(#shadow)"/>
-    <text x="680" y="838" class="horizon-text">Учебный год</text>
-    <text x="680" y="862" class="horizon-sub">(сен-май) · 14 шагов</text>
-  </g><path class="connector" stroke="#4834d4" d="M 370 850 C 455 850, 455 850, 540 850"/><g class="node phase-node">
-      <rect x="920" y="615" width="240" height="50" class="phase-rect" stroke="#4834d4" fill="#fff"/>
-      <text x="1040" y="646" class="phase-text">Планирование сезона</text>
-    </g><path class="connector" stroke="#4834d4" d="M 820 850 C 870 850, 870 640, 920 640"/><g class="node step-node" data-step-id="B1.1">
-          <rect x="1240" y="595" width="280" height="40" class="step-rect" stroke="#4834d4"/>
-          <text x="1248" y="611" class="step-text" text-anchor="start" style="font-weight: 600; fill: #4834d4;">B1.1</text>
-          <text x="1290" y="611" class="step-text" text-anchor="start" style="font-size: 11px;">Согласование бюджета и целей с админ...</text>
-          <text x="1248" y="627" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">разговор с завучей / планёрка в начале сентября / ...</text>
-        </g><path class="connector" stroke="#4834d4" d="M 1160 640 C 1200 640, 1200 615, 1240 615"/><g class="node step-node" data-step-id="B1.2">
-          <rect x="1240" y="645" width="280" height="40" class="step-rect" stroke="#4834d4"/>
-          <text x="1248" y="661" class="step-text" text-anchor="start" style="font-weight: 600; fill: #4834d4;">B1.2</text>
-          <text x="1290" y="661" class="step-text" text-anchor="start" style="font-size: 11px;">Утверждение списка мероприятий</text>
-          <text x="1248" y="677" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">рабочий блокнот / Excel / календарь на телефоне...</text>
-        </g><path class="connector" stroke="#4834d4" d="M 1160 640 C 1200 640, 1200 665, 1240 665"/><g class="node phase-node">
-      <rect x="920" y="685" width="240" height="50" class="phase-rect" stroke="#4834d4" fill="#fff"/>
-      <text x="1040" y="716" class="phase-text">Календарь конкурсов</text>
-    </g><path class="connector" stroke="#4834d4" d="M 820 850 C 870 850, 870 710, 920 710"/><g class="node step-node" data-step-id="B2.1">
-          <rect x="1240" y="665" width="280" height="40" class="step-rect" stroke="#4834d4"/>
-          <text x="1248" y="681" class="step-text" text-anchor="start" style="font-weight: 600; fill: #4834d4;">B2.1</text>
-          <text x="1290" y="681" class="step-text" text-anchor="start" style="font-size: 11px;">Просмотр каталога и подписка на нови...</text>
-          <text x="1248" y="697" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">events.артнавигатор.рф + email-рассылка "Новые кон...</text>
-        </g><path class="connector" stroke="#4834d4" d="M 1160 710 C 1200 710, 1200 685, 1240 685"/><g class="node step-node" data-step-id="B2.2">
-          <rect x="1240" y="715" width="280" height="40" class="step-rect" stroke="#4834d4"/>
-          <text x="1248" y="731" class="step-text" text-anchor="start" style="font-weight: 600; fill: #4834d4;">B2.2</text>
-          <text x="1290" y="731" class="step-text" text-anchor="start" style="font-size: 11px;">Консультация с коллегами и выбор</text>
-          <text x="1248" y="747" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">MAX-чат с коллегами / звонок Петровне / обсуждение...</text>
-        </g><path class="connector" stroke="#4834d4" d="M 1160 710 C 1200 710, 1200 735, 1240 735"/><g class="node phase-node">
-      <rect x="920" y="755" width="240" height="50" class="phase-rect" stroke="#4834d4" fill="#fff"/>
-      <text x="1040" y="786" class="phase-text">Заявки коллектива</text>
-    </g><path class="connector" stroke="#4834d4" d="M 820 850 C 870 850, 870 780, 920 780"/><g class="node step-node" data-step-id="B3.1">
-          <rect x="1240" y="735" width="280" height="40" class="step-rect" stroke="#4834d4"/>
-          <text x="1248" y="751" class="step-text" text-anchor="start" style="font-weight: 600; fill: #4834d4;">B3.1</text>
-          <text x="1290" y="751" class="step-text" text-anchor="start" style="font-size: 11px;">Подача первой заявки сезона (октябрь...</text>
-          <text x="1248" y="767" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">events.артнавигатор.рф - форма заявки + ЛК my.артн...</text>
-        </g><path class="connector" stroke="#4834d4" d="M 1160 780 C 1200 780, 1200 755, 1240 755"/><g class="node step-node" data-step-id="B3.2">
-          <rect x="1240" y="785" width="280" height="40" class="step-rect" stroke="#4834d4"/>
-          <text x="1248" y="801" class="step-text" text-anchor="start" style="font-weight: 600; fill: #4834d4;">B3.2</text>
-          <text x="1290" y="801" class="step-text" text-anchor="start" style="font-size: 11px;">Подача второй заявки (январь-февраль...</text>
-          <text x="1248" y="817" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">events.артнавигатор.рф + ЛК my.артнавигатор.рф - и...</text>
-        </g><path class="connector" stroke="#4834d4" d="M 1160 780 C 1200 780, 1200 805, 1240 805"/><g class="node phase-node">
-      <rect x="920" y="825" width="240" height="50" class="phase-rect" stroke="#4834d4" fill="#fff"/>
-      <text x="1040" y="856" class="phase-text">Управление оплатой</text>
-    </g><path class="connector" stroke="#4834d4" d="M 820 850 C 870 850, 870 850, 920 850"/><g class="node step-node" data-step-id="B4.1">
-          <rect x="1240" y="805" width="280" height="40" class="step-rect" stroke="#4834d4"/>
-          <text x="1248" y="821" class="step-text" text-anchor="start" style="font-weight: 600; fill: #4834d4;">B4.1</text>
-          <text x="1290" y="821" class="step-text" text-anchor="start" style="font-size: 11px;">Сбор денег с родителей по графику</text>
-          <text x="1248" y="837" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">MAX-чат + Т-Касса (если есть персональные ссылки)...</text>
-        </g><path class="connector" stroke="#4834d4" d="M 1160 850 C 1200 850, 1200 825, 1240 825"/><g class="node step-node" data-step-id="B4.2">
-          <rect x="1240" y="855" width="280" height="40" class="step-rect" stroke="#4834d4"/>
-          <text x="1248" y="871" class="step-text" text-anchor="start" style="font-weight: 600; fill: #4834d4;">B4.2</text>
-          <text x="1290" y="871" class="step-text" text-anchor="start" style="font-size: 11px;">Контроль статусов заявок в ЛК</text>
-          <text x="1248" y="887" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">my.артнавигатор.рф - дашборд "Мои заявки"...</text>
-        </g><path class="connector" stroke="#4834d4" d="M 1160 850 C 1200 850, 1200 875, 1240 875"/><g class="node phase-node">
-      <rect x="920" y="895" width="240" height="50" class="phase-rect" stroke="#4834d4" fill="#fff"/>
-      <text x="1040" y="926" class="phase-text">Участие и дипломы</text>
-    </g><path class="connector" stroke="#4834d4" d="M 820 850 C 870 850, 870 920, 920 920"/><g class="node step-node" data-step-id="B5.1">
-          <rect x="1240" y="875" width="280" height="40" class="step-rect" stroke="#4834d4"/>
-          <text x="1248" y="891" class="step-text" text-anchor="start" style="font-weight: 600; fill: #4834d4;">B5.1</text>
-          <text x="1290" y="891" class="step-text" text-anchor="start" style="font-size: 11px;">Участие в 2-3 конкурсах</text>
-          <text x="1248" y="907" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">площадки конкурсов + ЛК ArtNavigator как центр уве...</text>
-        </g><path class="connector" stroke="#4834d4" d="M 1160 920 C 1200 920, 1200 895, 1240 895"/><g class="node step-node" data-step-id="B5.2">
-          <rect x="1240" y="925" width="280" height="40" class="step-rect" stroke="#4834d4"/>
-          <text x="1248" y="941" class="step-text" text-anchor="start" style="font-weight: 600; fill: #4834d4;">B5.2</text>
-          <text x="1290" y="941" class="step-text" text-anchor="start" style="font-size: 11px;">Сбор дипломов в портфолио коллектива</text>
-          <text x="1248" y="957" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">oki.артнавигатор.рф + my.артнавигатор.рф - портфол...</text>
-        </g><path class="connector" stroke="#4834d4" d="M 1160 920 C 1200 920, 1200 945, 1240 945"/><g class="node phase-node">
-      <rect x="920" y="965" width="240" height="50" class="phase-rect" stroke="#4834d4" fill="#fff"/>
-      <text x="1040" y="996" class="phase-text">Итоги сезона</text>
-    </g><path class="connector" stroke="#4834d4" d="M 820 850 C 870 850, 870 990, 920 990"/><g class="node step-node" data-step-id="B6.1">
-          <rect x="1240" y="945" width="280" height="40" class="step-rect" stroke="#4834d4"/>
-          <text x="1248" y="961" class="step-text" text-anchor="start" style="font-weight: 600; fill: #4834d4;">B6.1</text>
-          <text x="1290" y="961" class="step-text" text-anchor="start" style="font-size: 11px;">Сводный отчёт для администрации</text>
-          <text x="1248" y="977" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">my.артнавигатор.рф - генератор отчёта...</text>
-        </g><path class="connector" stroke="#4834d4" d="M 1160 990 C 1200 990, 1200 965, 1240 965"/><g class="node step-node" data-step-id="B6.2">
-          <rect x="1240" y="995" width="280" height="40" class="step-rect" stroke="#4834d4"/>
-          <text x="1248" y="1011" class="step-text" text-anchor="start" style="font-weight: 600; fill: #4834d4;">B6.2</text>
-          <text x="1290" y="1011" class="step-text" text-anchor="start" style="font-size: 11px;">Подготовка публичной страницы коллек...</text>
-          <text x="1248" y="1027" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">classes.артнавигатор.рф + афиша на сайте школы...</text>
-        </g><path class="connector" stroke="#4834d4" d="M 1160 990 C 1200 990, 1200 1015, 1240 1015"/><g class="node phase-node">
-      <rect x="920" y="1035" width="240" height="50" class="phase-rect" stroke="#4834d4" fill="#fff"/>
-      <text x="1040" y="1066" class="phase-text">Подготовка к новому году</text>
-    </g><path class="connector" stroke="#4834d4" d="M 820 850 C 870 850, 870 1060, 920 1060"/><g class="node step-node" data-step-id="B7.1">
-          <rect x="1240" y="1015" width="280" height="40" class="step-rect" stroke="#4834d4"/>
-          <text x="1248" y="1031" class="step-text" text-anchor="start" style="font-weight: 600; fill: #4834d4;">B7.1</text>
-          <text x="1290" y="1031" class="step-text" text-anchor="start" style="font-size: 11px;">Анализ прошлого сезона и планы</text>
-          <text x="1248" y="1047" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">my.артнавигатор.рф - аналитика сезона...</text>
-        </g><path class="connector" stroke="#4834d4" d="M 1160 1060 C 1200 1060, 1200 1035, 1240 1035"/><g class="node step-node" data-step-id="B7.2">
-          <rect x="1240" y="1065" width="280" height="40" class="step-rect" stroke="#4834d4"/>
-          <text x="1248" y="1081" class="step-text" text-anchor="start" style="font-weight: 600; fill: #4834d4;">B7.2</text>
-          <text x="1290" y="1081" class="step-text" text-anchor="start" style="font-size: 11px;">Формирование списка на следующий год</text>
-          <text x="1248" y="1097" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">events.артнавигатор.рф - "Планировщик сезона"...</text>
-        </g><path class="connector" stroke="#4834d4" d="M 1160 1060 C 1200 1060, 1200 1085, 1240 1085"/><g class="node horizon-node">
-    <rect x="540" y="1310" width="280" height="80" class="horizon-rect" fill="#a29bfe" filter="url(#shadow)"/>
-    <text x="680" y="1338" class="horizon-text">1-2 года платформы</text>
-    <text x="680" y="1362" class="horizon-sub"> · 10 шагов</text>
-  </g><path class="connector" stroke="#a29bfe" d="M 370 850 C 455 850, 455 1350, 540 1350"/><g class="node phase-node">
-      <rect x="920" y="1185" width="240" height="50" class="phase-rect" stroke="#a29bfe" fill="#fff"/>
-      <text x="1040" y="1216" class="phase-text">Первое касание</text>
-    </g><path class="connector" stroke="#a29bfe" d="M 820 1350 C 870 1350, 870 1210, 920 1210"/><g class="node step-node" data-step-id="C1.1">
-          <rect x="1240" y="1165" width="280" height="40" class="step-rect" stroke="#a29bfe"/>
-          <text x="1248" y="1181" class="step-text" text-anchor="start" style="font-weight: 600; fill: #a29bfe;">C1.1</text>
-          <text x="1290" y="1181" class="step-text" text-anchor="start" style="font-size: 11px;">Услышала про ArtNavigator</text>
-          <text x="1248" y="1197" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">коллега в учительской / пост в MAX-сообществе педа...</text>
-        </g><path class="connector" stroke="#a29bfe" d="M 1160 1210 C 1200 1210, 1200 1185, 1240 1185"/><g class="node step-node" data-step-id="C1.2">
-          <rect x="1240" y="1215" width="280" height="40" class="step-rect" stroke="#a29bfe"/>
-          <text x="1248" y="1231" class="step-text" text-anchor="start" style="font-weight: 600; fill: #a29bfe;">C1.2</text>
-          <text x="1290" y="1231" class="step-text" text-anchor="start" style="font-size: 11px;">Первое знакомство с каталогом</text>
-          <text x="1248" y="1247" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">events.артнавигатор.рф - каталог и фильтры...</text>
-        </g><path class="connector" stroke="#a29bfe" d="M 1160 1210 C 1200 1210, 1200 1235, 1240 1235"/><g class="node phase-node">
-      <rect x="920" y="1255" width="240" height="50" class="phase-rect" stroke="#a29bfe" fill="#fff"/>
-      <text x="1040" y="1286" class="phase-text">Первая заявка и опыт</text>
-    </g><path class="connector" stroke="#a29bfe" d="M 820 1350 C 870 1350, 870 1280, 920 1280"/><g class="node step-node" data-step-id="C2.1">
-          <rect x="1240" y="1235" width="280" height="40" class="step-rect" stroke="#a29bfe"/>
-          <text x="1248" y="1251" class="step-text" text-anchor="start" style="font-weight: 600; fill: #a29bfe;">C2.1</text>
-          <text x="1290" y="1251" class="step-text" text-anchor="start" style="font-size: 11px;">Подача первой заявки</text>
-          <text x="1248" y="1267" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">событийный путь на events.артнавигатор.рф...</text>
-        </g><path class="connector" stroke="#a29bfe" d="M 1160 1280 C 1200 1280, 1200 1255, 1240 1255"/><g class="node step-node" data-step-id="C2.2">
-          <rect x="1240" y="1285" width="280" height="40" class="step-rect" stroke="#a29bfe"/>
-          <text x="1248" y="1301" class="step-text" text-anchor="start" style="font-weight: 600; fill: #a29bfe;">C2.2</text>
-          <text x="1290" y="1301" class="step-text" text-anchor="start" style="font-size: 11px;">Получение первого результата и впеча...</text>
-          <text x="1248" y="1317" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">email/уведомление о результате + диплом на oki.арт...</text>
-        </g><path class="connector" stroke="#a29bfe" d="M 1160 1280 C 1200 1280, 1200 1305, 1240 1305"/><g class="node phase-node">
-      <rect x="920" y="1325" width="240" height="50" class="phase-rect" stroke="#a29bfe" fill="#fff"/>
-      <text x="1040" y="1356" class="phase-text">Решение продолжать</text>
-    </g><path class="connector" stroke="#a29bfe" d="M 820 1350 C 870 1350, 870 1350, 920 1350"/><g class="node step-node" data-step-id="C3.1">
-          <rect x="1240" y="1305" width="280" height="40" class="step-rect" stroke="#a29bfe"/>
-          <text x="1248" y="1321" class="step-text" text-anchor="start" style="font-weight: 600; fill: #a29bfe;">C3.1</text>
-          <text x="1290" y="1321" class="step-text" text-anchor="start" style="font-size: 11px;">Оценка - стоит ли возвращаться?</text>
-          <text x="1248" y="1337" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">внутренние размышления + сравнение с альтернативой...</text>
-        </g><path class="connector" stroke="#a29bfe" d="M 1160 1350 C 1200 1350, 1200 1325, 1240 1325"/><g class="node step-node" data-step-id="C3.2">
-          <rect x="1240" y="1355" width="280" height="40" class="step-rect" stroke="#a29bfe"/>
-          <text x="1248" y="1371" class="step-text" text-anchor="start" style="font-weight: 600; fill: #a29bfe;">C3.2</text>
-          <text x="1290" y="1371" class="step-text" text-anchor="start" style="font-size: 11px;">Подача второй заявки в новом сезоне</text>
-          <text x="1248" y="1387" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">events.артнавигатор.рф + ЛК my.артнавигатор.рф...</text>
-        </g><path class="connector" stroke="#a29bfe" d="M 1160 1350 C 1200 1350, 1200 1375, 1240 1375"/><g class="node phase-node">
-      <rect x="920" y="1395" width="240" height="50" class="phase-rect" stroke="#a29bfe" fill="#fff"/>
-      <text x="1040" y="1426" class="phase-text">Регулярное использование</text>
-    </g><path class="connector" stroke="#a29bfe" d="M 820 1350 C 870 1350, 870 1420, 920 1420"/><g class="node step-node" data-step-id="C4.1">
-          <rect x="1240" y="1375" width="280" height="40" class="step-rect" stroke="#a29bfe"/>
-          <text x="1248" y="1391" class="step-text" text-anchor="start" style="font-weight: 600; fill: #a29bfe;">C4.1</text>
-          <text x="1290" y="1391" class="step-text" text-anchor="start" style="font-size: 11px;">Вход в привычку - 3+ сезона</text>
-          <text x="1248" y="1407" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">events.артнавигатор.рф, my.артнавигатор.рф, oki.ар...</text>
-        </g><path class="connector" stroke="#a29bfe" d="M 1160 1420 C 1200 1420, 1200 1395, 1240 1395"/><g class="node step-node" data-step-id="C4.2">
-          <rect x="1240" y="1425" width="280" height="40" class="step-rect" stroke="#a29bfe"/>
-          <text x="1248" y="1441" class="step-text" text-anchor="start" style="font-weight: 600; fill: #a29bfe;">C4.2</text>
-          <text x="1290" y="1441" class="step-text" text-anchor="start" style="font-size: 11px;">Углубление - новые номинации и форма...</text>
-          <text x="1248" y="1457" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">расширенный каталог на events.артнавигатор.рф...</text>
-        </g><path class="connector" stroke="#a29bfe" d="M 1160 1420 C 1200 1420, 1200 1445, 1240 1445"/><g class="node phase-node">
-      <rect x="920" y="1465" width="240" height="50" class="phase-rect" stroke="#a29bfe" fill="#fff"/>
-      <text x="1040" y="1496" class="phase-text">Амбассадорство</text>
-    </g><path class="connector" stroke="#a29bfe" d="M 820 1350 C 870 1350, 870 1490, 920 1490"/><g class="node step-node" data-step-id="C5.1">
-          <rect x="1240" y="1445" width="280" height="40" class="step-rect" stroke="#a29bfe"/>
-          <text x="1248" y="1461" class="step-text" text-anchor="start" style="font-weight: 600; fill: #a29bfe;">C5.1</text>
-          <text x="1290" y="1461" class="step-text" text-anchor="start" style="font-size: 11px;">Рекомендации коллегам</text>
-          <text x="1248" y="1477" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">разговоры в учительской + отзыв на сайте...</text>
-        </g><path class="connector" stroke="#a29bfe" d="M 1160 1490 C 1200 1490, 1200 1465, 1240 1465"/><g class="node step-node" data-step-id="C5.2">
-          <rect x="1240" y="1495" width="280" height="40" class="step-rect" stroke="#a29bfe"/>
-          <text x="1248" y="1511" class="step-text" text-anchor="start" style="font-weight: 600; fill: #a29bfe;">C5.2</text>
-          <text x="1290" y="1511" class="step-text" text-anchor="start" style="font-size: 11px;">Участие в жизни платформы</text>
-          <text x="1248" y="1527" class="step-text" text-anchor="start" style="font-size: 10px; fill: #6c7393;">отзывы, UGC, тематические вебинары ArtNavigator...</text>
-        </g><path class="connector" stroke="#a29bfe" d="M 1160 1490 C 1200 1490, 1200 1515, 1240 1515"/>
-<g transform="translate(80, 1570)">
-  <text class="legend" style="font-weight: 700; font-size: 13px;">Легенда:</text>
-  <text y="22" class="legend">— Центральный узел: персона педагога</text>
-  <text y="42" class="legend">— Горизонт (3 уровня по времени): Один конкурс, Учебный год, 1-2 года</text>
-  <text y="62" class="legend">— Фазы внутри горизонта (7+7+5)</text>
-  <text y="82" class="legend">— Шаги внутри фазы: кликни чтобы увидеть детали (touchpoint, goal, боли, возможности)</text>
-  <text y="108" class="legend" style="font-style: italic;">Источник данных: CJM_Pedagog_Massovy.md · Каналы обновлены под РФ 2026 (MAX, VK) · Июль 2026</text>
+<text x="800" y="46" class="title-svg">АртНавигатор — Customer Journey Map Mind Map</text>
+<text x="800" y="72" class="subtitle-svg">7 ролей · экосистема из 7 поддоменов · SEO-лидер рынка · Июль 2026</text>
+
+<circle cx="800" cy="630" r="430" fill="none" stroke="#dfe3f0" stroke-width="1" stroke-dasharray="4 4" opacity=".6"/>
+<circle cx="800" cy="630" r="320" fill="none" stroke="#cdd5e8" stroke-width="1.5" opacity=".5"/>
+
+<line class="connector" stroke="#4834d4" x1="800" y1="700" x2="800" y2="870"/>
+<line class="connector" stroke="#6c5ce7" x1="900" y1="700" x2="1080" y2="820"/>
+<line class="connector" stroke="#4834d4" x1="930" y1="630" x2="1170" y2="630"/>
+<line class="connector" stroke="#00b894" x1="860" y1="570" x2="980" y2="450"/>
+<line class="connector" stroke="#fdcb6e" x1="740" y1="570" x2="620" y2="450"/>
+<line class="connector" stroke="#ff7675" x1="700" y1="630" x2="430" y2="630"/>
+<line class="connector" stroke="#e84393" x1="730" y1="690" x2="540" y2="825"/>
+
+<g class="node root-node" data-branch="root">
+<rect x="640" y="550" width="320" height="160" class="root-rect"/>
+<text x="800" y="600" class="root-text">АртНавигатор</text>
+<text x="800" y="630" class="root-sub">детские творческие конкурсы</text>
+<text x="800" y="655" class="root-sub">старт 10.10.2026 · 110K+ участников</text>
+<text x="800" y="678" class="root-sub">SEO-лидер · TOP-1 по 62 запросам</text>
+<text x="800" y="700" class="root-sub">7 ролей · 144 680 визитов/год</text>
+</g>
+
+<g class="node branch" data-branch="platform">
+<rect x="600" y="870" width="400" height="100" class="branch-rect" fill="#4834d4" stroke="#3528b0"/>
+<text x="800" y="900" class="branch-num">ВЕТВЬ 1</text>
+<text x="800" y="928" class="branch-title">Фундамент платформы</text>
+<text x="800" y="955" class="branch-sub">7 поддоменов · воронка · 24 фрикции · каналы</text>
+</g>
+
+<g class="node branch" data-branch="participant">
+<rect x="930" y="770" width="370" height="100" class="branch-rect" fill="#6c5ce7" stroke="#4a3fb0"/>
+<text x="1115" y="800" class="branch-num">ВЕТВЬ 2</text>
+<text x="1115" y="828" class="branch-title">Участник / Родитель</text>
+<text x="1115" y="855" class="branch-sub">B2C · главный поток · дети 6-17 лет</text>
+</g>
+
+<g class="node branch" data-branch="teacher">
+<rect x="1170" y="580" width="400" height="110" class="branch-rect" fill="#4834d4" stroke="#3528b0" stroke-width="6"/>
+<text x="1370" y="610" class="branch-num">ВЕТВЬ 3 ★</text>
+<text x="1370" y="640" class="branch-title">Педагог</text>
+<text x="1370" y="667" class="branch-sub">главная роль · 3 сегмента</text>
+<text x="1370" y="687" class="branch-sub">114 точек CJM · 38 шагов × 3</text>
+</g>
+
+<g class="node branch" data-branch="organizer">
+<rect x="820" y="370" width="370" height="100" class="branch-rect" fill="#00b894" stroke="#00946c"/>
+<text x="1005" y="400" class="branch-num">ВЕТВЬ 4</text>
+<text x="1005" y="428" class="branch-title">Организатор</text>
+<text x="1005" y="455" class="branch-sub">B2B · organizer.артнавигатор.рф</text>
+</g>
+
+<g class="node branch" data-branch="school">
+<rect x="410" y="370" width="370" height="100" class="branch-rect" fill="#fdcb6e" stroke="#d4a82e"/>
+<text x="595" y="400" class="branch-num-dark">ВЕТВЬ 5</text>
+<text x="595" y="428" class="branch-title" style="fill:#1a1f3a">Школа / Студия</text>
+<text x="595" y="455" class="branch-sub-dark">B2B · classes.артнавигатор.рф</text>
+</g>
+
+<g class="node branch" data-branch="jury">
+<rect x="30" y="580" width="400" height="110" class="branch-rect" fill="#ff7675" stroke="#d4544f"/>
+<text x="230" y="610" class="branch-num">ВЕТВЬ 6</text>
+<text x="230" y="640" class="branch-title">Жюри / Зритель</text>
+<text x="230" y="667" class="branch-sub">afisha · оценивание · UGC</text>
+<text x="230" y="687" class="branch-sub">социальное доказательство</text>
+</g>
+
+<g class="node branch" data-branch="opportunity">
+<rect x="370" y="775" width="370" height="100" class="branch-rect" fill="#e84393" stroke="#b53074"/>
+<text x="555" y="805" class="branch-num">ВЕТВЬ 7</text>
+<text x="555" y="833" class="branch-title">Opportunity Map</text>
+<text x="555" y="860" class="branch-sub">Quick Wins · Strategic Bets · Гипотезы</text>
+</g>
+
+<g transform="translate(160, 1050)">
+<text class="legend-text" style="font-weight:700;font-size:14px;fill:#1a1f3a">Как читать эту карту</text>
+<text y="28" class="legend-text">★ — главная роль для маркетинга 2026 (педагог — источник 100% повторных покупок)</text>
+<text y="52" class="legend-text">Каждая ветвь описывает одну роль пользователя или системный блок. Кликни на любую ветвь — детали CJM в модалке</text>
+<text y="76" class="legend-text" style="font-style:italic">Esc — закрыть модалку · Источник: CJM_Pedagog_{Massovy, Prodvinuty, Bazovy} + CONTEXT.md</text>
+<text y="100" class="legend-text">Данные: <tspan font-weight="700">144 680 визитов/год</tspan>, конверсия 3.4%, 110K+ участников за всё время, 7 поддоменов, MAX/VK как каналы 2026</text>
 </g>
 </svg>
+</div>
 
+<div class="hint">★ — кликни на ветвь чтобы увидеть CJM-детали</div>
+
+<div class="modal-overlay" id="modal">
+<div class="modal-card">
+<div class="modal-head" id="modalHead">
+<div>
+<div class="num" id="m-num"></div>
+<h2 id="m-title"></h2>
+<div class="desc" id="m-desc"></div>
 </div>
-<div class="hint">Кликни на любой шаг справа чтобы увидеть детали</div>
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div>
-        <div class="step-num" id="m-step-num"></div>
-        <h2 id="m-title"></h2>
-        <div id="m-emotion"></div>
-      </div>
-      <button class="modal-close" onclick="closeModal()">×</button>
-    </div>
-    <div class="modal-body" id="m-body"></div>
-  </div>
+<button class="modal-close" onclick="closeModal()">×</button>
 </div>
+<div class="modal-body" id="m-body"></div>
+</div>
+</div>
+
+<footer>АртНавигатор © 2026 · Customer Journey Map — маркетинговая версия · Июль 2026</footer>
+
+<script src="data.js"></script>
 <script>
-const STEPS_DATA = [{"id":"A1.1","title":"Триггер - \"коллективу нужна внешняя оценка\"","fields":{"Touchpoint":"личная беседа с завучем / разговор с родителями на собрании / собственное решение перед аттестацией\r\n- **Goal:** понять, какой статус конкурса нужен (школьный / муниципальный / всероссийский)\r\n- **Thoughts:**\r\n  - \"Колонтитулы уже готовы, нужны дипломы для портфолио учреждения\"\r\n  - \"Завуч сказала подготовить список достижений к маю\"\r\n  - \"Хочется, чтобы дети почувствовали конкуренцию, а не только репетиции\"\r\n- **Emotion:** anxious (2)\r\n- **Intensity:** 2\r\n- **Pain points:**\r\n  - \"Нет внутреннего календаря конкурсов в школе - каждый год начинаю с нуля\" (гипотеза)\r\n  - \"Ориентируюсь на слухи и сарафан, нет агрегатора с фильтром по уровню\" (CONTEXT.md, слабость \"сложный путь для педагогов\")\r\n- **Opportunities:**\r\n  - Дать на главной странице events.артнавигатор.рф блок \"Конкурсы с дипломами гос. образца\" с фильтром по типу учреждения\r\n  - В ЛК на my.артнавигатор.рф показать календарь \"в этом году обычно подавали в марте\""}},{"id":"A1.2","title":"Формулирование критериев выбора","fields":{"Touchpoint":"заметки в телефоне / блокнот на столе / обсуждение с коллегами в педсовете\r\n- **Goal:** зафиксировать 3-5 критериев: уровень, номинация, стоимость, сроки, диплом гос. образца\r\n- **Thoughts:**\r\n  - \"Нужен недорогой - у родителей по 250 рублей максимум\"\r\n  - \"Сроки должны быть в каникулы или выходные, чтобы не пропускать школу\"\r\n  - \"Хочу онлайн-формат участия, у меня нет денег на поездку\"\r\n- **Emotion:** confused (2)\r\n- **Intensity:** 2\r\n- **Pain points:**\r\n  - \"Критерии ломаются один за другим: тут дорого, там далеко, здесь сроки не подходят\" (гипотеза)\r\n  - \"Когда нахожу подходящий конкурс, всё равно нужно проверять каждое положение вручную\" (гипотеза)\r\n- **Opportunities:**\r\n  - Краткий чек-лист \"5 критериев выбора конкурса для коллектива\" - контент в блоге + PDF для скачивания","Контекст":"Елена открывает Яндекс, вбивает запросы, советуется с коллегами, просматривает каталог events.артнавигатор.рф."}},{"id":"A2.1","title":"Поиск через Яндекс и обход сайтов","fields":{"Touchpoint":"Яндекс.Поиск - \"детские конкурсы хоровых коллективов 2026 диплом гос. образца\", потом сторонние сайты организаторов\r\n- **Goal:** найти 3-7 вариантов для сравнения\r\n- **Thoughts:**\r\n  - \"Ой, опять 30 вкладок открыто\"\r\n  - \"Этот сайт требует регистрации перед тем, как я увижу положение\"\r\n  - \"Яндекс выдает какие-то странные сайты 2015 года - им можно доверять?\"\r\n- **Emotion:** frustrated (2)\r\n- **Intensity:** 2\r\n- **Pain points:**\r\n  - \"70% отвал на этапе визит - просмотр карточки конкурса\" (CONTEXT.md, \"Топ-пробои\")\r\n  - \"Карточка конкурса не даёт ключевых ответов сразу: статус, цену, сроки, формат участия\" (CONTEXT.md, раздел воронки \"карточка - 80% отвал\")\r\n- **Opportunities:**\r\n  - SEO-оптимизация страниц конкурсов по длинным хвостам \"конкурс для [название коллектива] диплом гос. образца\"\r\n  - Сниппет в выдаче с 4 главными параметрами: цена, дата, формат, статус диплома"}},{"id":"A2.2","title":"Сравнение вариантов в агрегаторе ArtNavigator","fields":{"Touchpoint":"events.артнавигатор.рф - фильтры по типу коллектива, региону, статусу диплома\r\n- **Goal:** выбрать 2-3 финалиста, которых покажет заведующей\r\n- **Thoughts:**\r\n  - \"Здесь хотя бы всё в одном месте, не надо 30 вкладок держать\"\r\n  - \"Фильтр по гос. образцу есть, но не очень понятно, что они имеют в виду\"\r\n  - \"Ага, есть отзывы от других педагогов - уже хорошо\"\r\n- **Emotion:** hopeful (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"Нет внятного отличия 'гос. образца' от обычного - выглядит одинаково в фильтрах\" (гипотеза)\r\n  - \"Отзывов мало, в основном от родителей-одиночек\" (гипотеза)\r\n- **Opportunities:**\r\n  - На карточке конкурса - явный бейдж \"Диплом гос. образца\" или \"Сертификат АНО/НКО\"\r\n  - Блок \"Подходит для: школьных хоров, муниципальных коллективов\" на основе тегов","Контекст":"Елена выбрала 1-2 конкурса, теперь нужно собрать данные по 20-40 ученикам и заполнить заявки."}},{"id":"A3.1","title":"Сбор данных учеников","fields":{"Touchpoint":"школьная база 1С / журнал / Excel по классу + анкеты родителей в MAX (национальный мессенджер)\r\n- **Goal:** получить актуальный список ФИО, дат рождения, номинаций\r\n- **Thoughts:**\r\n  - \"Где у меня та папка со списком...\"\r\n  - \"У трех детей сменились фамилии после развода родителей\"\r\n  - \"Опять половина родителей не открыла анкету - придётся обходить лично\"\r\n- **Emotion:** frustrated (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"Нет выгрузки заявок в Excel, ручная обработка\" (CONTEXT.md, \"Известные боли педагога\")\r\n  - \"Списки разбросаны: классный журнал, MAX-чат, список от прошлого конкурса\" (гипотеза)\r\n- **Opportunities:**\r\n  - Шаблон Excel на странице конкурса с предзаполненными полями\r\n  - Импорт списка через CSV / Google Таблицу прямо в форму"}},{"id":"A3.2","title":"Заполнение формы заявки","fields":{"Touchpoint":"форма заявки на events.артнавигатор.рф - \"Подать заявку\"\r\n- **Goal:** подать данные 20-40 учеников, выбрать номинации, получить подтверждение\r\n- **Thoughts:**\r\n  - \"Боже, форма с 15 полями на каждого - это 600 полей\"\r\n  - \"А если я ошиблась в одной дате - потом исправлять?\"\r\n  - \"Хорошо, что можно сохранить черновик\"\r\n- **Emotion:** anxious (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"Форма длинная и не сохраняется между сессиями - каждый раз с нуля\" (гипотеза)\r\n  - \"Не понятно, где указать, что это коллективная заявка от педагога, а не индивидуальная\" (CONTEXT.md, \"сложный путь для педагогов\")\r\n- **Opportunities:**\r\n  - Массовое добавление участников через таблицу прямо в форме\r\n  - Чекбокс \"Это заявка от педагога на коллектив\" с автоматическим расчётом скидки\r\n  - Сохранение черновика на 30 дней без регистрации (по cookie + email-ссылка)","Контекст":"заявка подана, нужно оплатить - либо из бюджета учреждения, либо собрав деньги с родителей."}},{"id":"A4.1","title":"Сбор денег с родителей","fields":{"Touchpoint":"MAX-чат родителей / сообщение в родительский чат в школе / объявление на собрании\r\n- **Goal:** собрать 20-40 переводов по 200-500 рублей за 3-5 дней\r\n- **Thoughts:**\r\n  - \"Опять половина забудет, потом догоняй неделю\"\r\n  - \"Переводы на карту - это 30 уведомлений от Сбера, потом сверяй\"\r\n  - \"Пятеро платят наличкой - придётся идти в банк\"\r\n- **Emotion:** anxious (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"Сверять 30 переводов с номерами родителей - ад\" (гипотеза)\r\n  - \"Нет прозрачного статуса - кто заплатил, кто нет\" (гипотеза)\r\n- **Opportunities:**\r\n  - Генерация персональных ссылок на оплату для каждого родителя (Т-Касса поддерживает)\r\n  - Сводная таблица \"Заявка - сбор средств\" в ЛК: \"Оплачено 24/32\""}},{"id":"A4.2","title":"Оплата на платформе","fields":{"Touchpoint":"форма оплаты Т-Кассы на events.артнавигатор.рф\r\n- **Goal:** завершить транзакцию и получить подтверждение\r\n- **Thoughts:**\r\n  - \"Сейчас карта отклонится и всё заново...\"\r\n  - \"Квитанцию надо сохранить для бухгалтерии\"\r\n  - \"А платёж сразу пройдёт или будет висеть сутки?\"\r\n- **Emotion:** anxious (2)\r\n- **Intensity:** 2\r\n- **Pain points:**\r\n  - \"Нет email/SMS-подтверждения после оплаты\" (CONTEXT.md, \"Известные боли педагога\")\r\n  - \"Нет триггера на брошенную корзину\" (CONTEXT.md, раздел \"Топ-пробои\")\r\n  - \"Данные по конверсии форма - оплата отсутствуют\" (CONTEXT.md)\r\n- **Opportunities:**\r\n  - SMS и email сразу после оплаты: \"Заявка #A12456 оплачена, чек во вложении\"\r\n  - Напоминание в MAX-бот через 2 часа, если корзина брошена\r\n  - Ссылка на чеки в ЛК для бухгалтерии учреждения","Контекст":"деньги собраны, заявка оплачена, осталось подготовить номера и провести конкурс."}},{"id":"A5.1","title":"Репетиции и подготовка номеров","fields":{"Touchpoint":"ДК / школа - репетиционный зал + домашние задания в MAX родителям\r\n- **Goal:** подготовить детей к выступлению\r\n- **Thoughts:**\r\n  - \"За 2 недели надо 4-5 дополнительных репетиций - с родителями согласовать\"\r\n  - \"Трое заболели - замены или снимаем?\"\r\n  - \"Хорошо бы родители помогли с костюмами\"\r\n- **Emotion:** confident (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"Согласование доп. репетиций с родителями - в MAX, а потом в школьной почте, потеряется\" (гипотеза)\r\n  - \"Нет инструмента уведомить 30 семей одновременно о датах\" (гипотеза)\r\n- **Opportunities:**\r\n  - В ЛК блок \"Уведомить родителей\" с шаблоном \"Доп. репетиция в воскресенье\""}},{"id":"A5.2","title":"Участие в конкурсе","fields":{"Touchpoint":"площадка конкурса (очно или онлайн-платформа организатора) + ссылка в ЛК ArtNavigator\r\n- **Goal:** выступить, получить оценки\r\n- **Thoughts:**\r\n  - \"Главное - не больше 2 поездок в сезон, иначе родители взбунтуются\"\r\n  - \"Онлайн-формат - спасение, не надо логистики\"\r\n  - \"Будет хорошо, если получится выступить всем 32 детям\"\r\n- **Emotion:** hopeful (4)\r\n- **Intensity:** 4\r\n- **Pain points:**\r\n  - \"Нет единого места, где вижу статус 'выступили - результат ожидается'\" (CONTEXT.md, фрустрация сегмента)\r\n  - \"Если онлайн - загрузка файлов по одному через медленный сайт организатора\" (гипотеза)\r\n- **Opportunities:**\r\n  - В ЛК виджет \"Сегодня: 3 события, 1 на этой неделе\"\r\n  - Ссылка на загрузку работ + дедлайн в одном месте","Контекст":"результаты опубликованы, дипломы получены."}},{"id":"A6.1","title":"Скачивание и проверка дипломов","fields":{"Touchpoint":"ЛК на oki.артнавигатор.рф (энциклопедия достижений) или email от организатора\r\n- **Goal:** получить все дипломы и проверить данные\r\n- **Thoughts:**\r\n  - \"Ой, у Маши Иванова опечатка в фамилии - что делать?\"\r\n  - \"Электронные - хорошо, можно сразу родителям\"\r\n  - \"А бумажные по почте придут или почтой России?\"\r\n- **Emotion:** proud (4)\r\n- **Intensity:** 4\r\n- **Pain points:**\r\n  - \"oki.артнавигатор.рф - 34.2% конверсия, лучшая в проекте, но педагоги туда не доходят\" (CONTEXT.md, аналитика)\r\n  - \"Нет единой папки с дипломами за все годы на одного педагога\" (CONTEXT.md, \"нет CRM\")\r\n  - \"Нет Excel-выгрузки дипломов по списку\" (CONTEXT.md, \"Известные боли\")\r\n- **Opportunities:**\r\n  - Автоматический сбор дипломов в \"Портфолио коллектива\" в ЛК на my.артнавигатор.рф\r\n  - Excel-выгрузка \"Список участников + достижения\" для отчёта директору"}},{"id":"A6.2","title":"Рассылка дипломов родителям","fields":{"Touchpoint":"MAX-чат с родителями + email\r\n- **Goal:** каждый родитель получил PDF диплома своего ребёнка\r\n- **Thoughts:**\r\n  - \"Опять отправлять 32 сообщения... а можно ссылку общую?\"\r\n  - \"Хорошо бы родители сами скачивали из своего ЛК\"\r\n- **Emotion:** confident (4)\r\n- **Intensity:** 4\r\n- **Pain points:**\r\n  - \"Каждый диплом отдельно - массовой рассылки нет\" (гипотеза)\r\n- **Opportunities:**\r\n  - Публичная страница \"Результаты хора [название] на конкурсе [название]\" с защитой по ссылке\r\n  - Возможность родителю получить диплом через my.артнавигатор.рф по своему ребёнку","Контекст":"конкурс позади, Елена оценивает опыт."}},{"id":"A7.1","title":"Отчёт директору и в портфолио учреждения","fields":{"Touchpoint":"бумажный отчёт директору + разговор на планёрке\r\n- **Goal:** показать результат в формате \"X детей, Y дипломов, Z лауреатов\"\r\n- **Thoughts:**\r\n  - \"Надо сесть и свести всё в табличку\"\r\n  - \"Ой, а где у меня статистика по номинациям?\"\r\n  - \"Хорошо бы просто нажать одну кнопку и получить готовый отчёт\"\r\n- **Emotion:** frustrated (2)\r\n- **Intensity:** 2\r\n- **Pain points:**\r\n  - \"Дипломы учеников разбросаны по папкам на рабочем столе\" (SEGMENT_MASSOVY.md, цитата сегмента)\r\n  - \"Нет агрегированной статистики по коллективу за год\" (гипотеза)\r\n- **Opportunities:**\r\n  - Кнопка \"Сформировать отчёт для администрации\" в ЛК - PDF с логотипом учреждения и сводкой"}},{"id":"A7.2","title":"Решение - идти на следующий конкурс или нет","fields":{"Touchpoint":"обсуждение с коллегами в учительской / внутренний диалог\r\n- **Goal:** понять, повторять ли опыт\r\n- **Thoughts:**\r\n  - \"В целом норм, но устала от бумаг\"\r\n  - \"Если бы не Excel-ад с заявками, повторила бы сразу\"\r\n  - \"Подожду до следующего сезона\"\r\n- **Emotion:** hopeful (2)\r\n- **Intensity:** 2\r\n- **Pain points:**\r\n  - \"Нет системы напоминаний 'вы давно не подавали заявку'\" (CONTEXT.md, раздел \"100% потерь повторных\")\r\n  - \"Нет follow-up, после конкурса платформа 'отпускает' педагога\" (CONTEXT.md, \"нет CRM\")\r\n- **Opportunities:**\r\n  - Email через 1-2 месяца: \"Следующие конкурсы для хоровых коллективов - 5 новых вариантов\"\r\n  - Кнопка \"Сохранить коллектив в избранное\" для быстрого повтора"}},{"id":"B1.1","title":"Согласование бюджета и целей с администрацией","fields":{"Touchpoint":"разговор с завучей / планёрка в начале сентября / заявка на внебюджетные средства\r\n- **Goal:** получить \"добро\" на 1-3 конкурса в год и согласовать источник финансирования\r\n- **Thoughts:**\r\n  - \"Опять надо объяснять завучу, зачем нам конкурсы, если дети и так поют\"\r\n  - \"Бюджет - ноль, значит опять с родителей\"\r\n  - \"Лимит 3 конкурса - больше администрация не пропустит\"\r\n- **Emotion:** anxious (2)\r\n- **Intensity:** 2\r\n- **Pain points:**\r\n  - \"Нет готовой аргументации 'почему конкурсы нужны для аттестации'\" (гипотеза)\r\n  - \"Цифры по конкурсам приходится собирать заново каждый сентябрь\" (гипотеза)\r\n- **Opportunities:**\r\n  - В ЛК блок \"Аргументы для администрации\" с шаблоном служебной записки\r\n  - PDF \"Результаты прошлого сезона\" для отчёта за прошлый год"}},{"id":"B1.2","title":"Утверждение списка мероприятий","fields":{"Touchpoint":"рабочий блокнот / Excel / календарь на телефоне\r\n- **Goal:** зафиксировать 1-3 конкурса и сроки подачи\r\n- **Thoughts:**\r\n  - \"Ок, муниципальный в ноябре, всероссийский в марте, школьный в мае\"\r\n  - \"Подавать надо за 2 месяца, значит в сентябре надо определиться по ноябрьскому\"\r\n- **Emotion:** confident (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"Нет общего календаря конкурсов на год - собираю из разных источников\" (CONTEXT.md, \"сложный путь\")\r\n- **Opportunities:**\r\n  - На events.артнавигатор.рф - \"Календарь на учебный год\" с фильтром по типу коллектива","Контекст":"октябрь, Елена активно ищет конкурсы на первую половину года."}},{"id":"B2.1","title":"Просмотр каталога и подписка на новинки","fields":{"Touchpoint":"events.артнавигатор.рф + email-рассылка \"Новые конкурсы для хоров\"\r\n- **Goal:** найти 5-7 вариантов на ноябрь-февраль\r\n- **Thoughts:**\r\n  - \"Хорошо бы подписаться на рассылку по моему профилю\"\r\n  - \"Надоел Яндекс, дай мне нормальный агрегатор\"\r\n- **Emotion:** hopeful (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"70% отвал на этапе визит - карточка\" (CONTEXT.md, раздел воронки)\r\n  - \"Нет персональных рекомендаций - смотрю всё подряд\" (гипотеза)\r\n- **Opportunities:**\r\n  - Email-дайджест \"5 новых конкурсов для школьных хоров\" 1-2 раза в месяц\r\n  - MAX-канал \"Конкурсы для [тип коллектива]\" (нац. мессенджер, охват среди педагогов выше 60%)"}},{"id":"B2.2","title":"Консультация с коллегами и выбор","fields":{"Touchpoint":"MAX-чат с коллегами / звонок Петровне / обсуждение в учительской\r\n- **Goal:** выбрать 1 основной и 1 запасной конкурс на ноябрь\r\n- **Thoughts:**\r\n  - \"Петровна в прошлом году возила, говорит - норм, организаторы отзывчивые\"\r\n  - \"А тот, что в Яндексе выскочил, я бы не рискнула - отзывов мало\"\r\n- **Emotion:** confident (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"Отзывы в основном от родителей, а не от педагогов\" (гипотеза)\r\n- **Opportunities:**\r\n  - Блок \"Педагоги рекомендуют\" на странице конкурса - отзывы от других руководителей","Контекст":"октябрь-февраль, Елена подаёт заявки на 1-й, 2-й, 3-й конкурсы по графику."}},{"id":"B3.1","title":"Подача первой заявки сезона (октябрь)","fields":{"Touchpoint":"events.артнавигатор.рф - форма заявки + ЛК my.артнавигатор.рф\r\n- **Goal:** оформить заявку, оплатить, подтвердить участие\r\n- **Thoughts:**\r\n  - \"О, в этом году я уже знаю, как работает форма\"\r\n  - \"Хорошо бы сохранить шаблон заявки, чтобы повторно заполнять\"\r\n- **Emotion:** confident (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"Форма не сохраняет черновик надолго\" (гипотеза)\r\n  - \"Снова заполнять 600 полей на 30 детей\" (CONTEXT.md, \"Известные боли\")\r\n- **Opportunities:**\r\n  - \"Шаблон коллектива\" в ЛК - сохраняет список учеников для повторных заявок\r\n  - Кнопка \"Скопировать заявку с прошлого конкурса\""}},{"id":"B3.2","title":"Подача второй заявки (январь-февраль)","fields":{"Touchpoint":"events.артнавигатор.рф + ЛК my.артнавигатор.рф - история заявок\r\n- **Goal:** оформить новую заявку, используя прошлый опыт\r\n- **Thoughts:**\r\n  - \"Я помню тот конкурс, но не помню, как там номинации назывались\"\r\n  - \"Слава богу, в ЛК есть история - могу посмотреть\"\r\n- **Emotion:** confident (4)\r\n- **Intensity:** 4\r\n- **Pain points:**\r\n  - \"my.артнавигатор.рф - всего 464 визита в год, педагоги почти не заходят\" (CONTEXT.md, аналитика)\r\n  - \"ЛК неудобный - я туда попадаю раз в год и забываю, где что\" (гипотеза)\r\n- **Opportunities:**\r\n  - Дашборд \"Мои заявки\" в ЛК - сразу видны статусы, сроки оплаты, результаты\r\n  - Бейдж уведомлений \"2 активные заявки\"","Контекст":"весь учебный год, Елена параллельно ведёт несколько заявок в разных стадиях."}},{"id":"B4.1","title":"Сбор денег с родителей по графику","fields":{"Touchpoint":"MAX-чат + Т-Касса (если есть персональные ссылки)\r\n- **Goal:** собрать средства от 20-40 семей по 2-3 конкурсам в год\r\n- **Thoughts:**\r\n  - \"Один сбор закрыли, начинаем второй\"\r\n  - \"Половина уже отказались - 'опять деньги'\"\r\n- **Emotion:** frustrated (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"Три сбора в год - это 90 сообщений в чат и 90 сверок\" (гипотеза)\r\n  - \"Часть родителей категорически против платных конкурсов\" (гипотеза)\r\n- **Opportunities:**\r\n  - Генератор персональных ссылок на оплату в ЛК с автоматической сверкой\r\n  - Возможность назначить \"родителя-координатора\" для сбора"}},{"id":"B4.2","title":"Контроль статусов заявок в ЛК","fields":{"Touchpoint":"my.артнавигатор.рф - дашборд \"Мои заявки\"\r\n- **Goal:** видеть, что оплачено, что ожидает, какие сроки горят\r\n- **Thoughts:**\r\n  - \"Так, эта заявка в статусе 'оплачено', эта 'ожидает подтверждения'\"\r\n  - \"Ах, через неделю дедлайн по загрузке работ, а я забыла\"\r\n- **Emotion:** confident (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"Нет триггеров на ключевые дедлайны\" (CONTEXT.md, \"нет CRM\")\r\n  - \"В ЛК надо копаться, чтобы найти нужную заявку\" (CONTEXT.md, \"ЛК 464 визита\")\r\n- **Opportunities:**\r\n  - Push/SMS-напоминания за 3 дня до дедлайнов (загрузка работ, оплата, документы)\r\n  - Сводная страница \"Активные конкурсы\" с цветовой разметкой статусов","Контекст":"ноябрь-апрель, проводятся конкурсы, Елена получает дипломы и оформляет портфолио."}},{"id":"B5.1","title":"Участие в 2-3 конкурсах","fields":{"Touchpoint":"площадки конкурсов + ЛК ArtNavigator как центр уведомлений\r\n- **Goal:** организовать участие без авралов\r\n- **Thoughts:**\r\n  - \"Три конкурса в год - два по городу, один онлайн\"\r\n  - \"Главное - не накладки по срокам\"\r\n- **Emotion:** hopeful (4)\r\n- **Intensity:** 4\r\n- **Pain points:**\r\n  - \"Нет сводного расписания 'ваши мероприятия на этой неделе'\" (гипотеза)\r\n- **Opportunities:**\r\n  - Календарь \"Все мои конкурсы\" в ЛК с экспортом в Google Calendar\r\n  - Виджет на главной \"Ближайшее событие через 5 дней\""}},{"id":"B5.2","title":"Сбор дипломов в портфолио коллектива","fields":{"Touchpoint":"oki.артнавигатор.рф + my.артнавигатор.рф - портфолио коллектива\r\n- **Goal:** собрать все дипломы в одно место для отчёта\r\n- **Thoughts:**\r\n  - \"О, я могу постепенно добавлять сюда дипломы в течение года\"\r\n  - \"Ученики уходят - их достижения остаются\"\r\n- **Emotion:** proud (4)\r\n- **Intensity:** 4\r\n- **Pain points:**\r\n  - \"Дипломы получаю в разных форматах и папках\" (SEGMENT_MASSOVY.md)\r\n  - \"Нет выгрузки Excel для отчёта\" (CONTEXT.md, \"Известные боли\")\r\n- **Opportunities:**\r\n  - Автоимпорт дипломов из email организатора в ЛК\r\n  - \"Портфолио коллектива\" с тегами \"лауреат\", \"дипломант\", по годам и номинациям","Контекст":"конец учебного года, Елена готовит итоговый отчёт."}},{"id":"B6.1","title":"Сводный отчёт для администрации","fields":{"Touchpoint":"my.артнавигатор.рф - генератор отчёта\r\n- **Goal:** свести все достижения за год в один документ\r\n- **Thoughts:**\r\n  - \"Один PDF с логотипом школы, вставить в презентацию на педсовете\"\r\n  - \"У меня 32 ребёнка, 28 приняли участие, 25 с дипломами - цифры для отчёта\"\r\n- **Emotion:** proud (4)\r\n- **Intensity:** 4\r\n- **Pain points:**\r\n  - \"Отчёт собираю вручную из разных источников\" (CONTEXT.md, фрустрация сегмента)\r\n- **Opportunities:**\r\n  - Кнопка \"Сформировать годовой отчёт\" в ЛК с шаблоном \"Отчёт о достижениях коллектива за 2026-2027 уч. год\""}},{"id":"B6.2","title":"Подготовка публичной страницы коллектива","fields":{"Touchpoint":"classes.артнавигатор.рф + афиша на сайте школы\r\n- **Goal:** показать результаты родителям и привлечь новых учеников\r\n- **Thoughts:**\r\n  - \"Можно ссылку в чат родителям бросить - пусть смотрят\"\r\n- **Emotion:** proud (5)\r\n- **Intensity:** 5\r\n- **Pain points:**\r\n  - \"classes.артнавигатор.рф - 2,500+ школ, но я не знаю, как там завести страницу коллектива\" (гипотеза)\r\n- **Opportunities:**\r\n  - Готовый шаблон \"Страница коллектива\" на classes.артнавигатор.рф - педагог заполняет 10 полей, родители делятся ссылкой","Контекст":"каникулы, Елена думает о следующем сезоне."}},{"id":"B7.1","title":"Анализ прошлого сезона и планы","fields":{"Touchpoint":"my.артнавигатор.рф - аналитика сезона\r\n- **Goal:** понять, что повторить, что изменить\r\n- **Thoughts:**\r\n  - \"Какие конкурсы дали лучший результат?\"\r\n  - \"В каком формате родители активнее - онлайн или очно?\"\r\n- **Emotion:** hopeful (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"Нет аналитики по прошлым сезонам - по памяти вспоминаю\" (гипотеза)\r\n- **Opportunities:**\r\n  - Дашборд \"Сравнение сезонов\" - графики участия, стоимости, результатов"}},{"id":"B7.2","title":"Формирование списка на следующий год","fields":{"Touchpoint":"events.артнавигатор.рф - \"Планировщик сезона\"\r\n- **Goal:** предварительно выбрать 3-5 конкурсов на следующий год\r\n- **Thoughts:**\r\n  - \"Хорошо бы заранее записаться в лист ожидания\"\r\n- **Emotion:** hopeful (4)\r\n- **Intensity:** 4\r\n- **Pain points:**\r\n  - \"В июне конкурсов на следующий год ещё нет - невозможно планировать\" (гипотеза)\r\n- **Opportunities:**\r\n  - \"Ранний список\" конкурсов с пометкой \"откроется в сентябре, подпишитесь на уведомление\""}},{"id":"C1.1","title":"Услышала про ArtNavigator","fields":{"Touchpoint":"коллега в учительской / пост в MAX-сообществе педагогов / выдача Яндекса\r\n- **Goal:** понять, что это вообще такое и зачем мне\r\n- **Thoughts:**\r\n  - \"Петровна говорит - попробуй, удобно\"\r\n  - \"А, это агрегатор конкурсов - у нас в городе такого не было\"\r\n  - \"Яндекс выдал, когда искала конкурс - посмотрю, что за сайт\"\r\n- **Emotion:** confused (1)\r\n- **Intensity:** 1\r\n- **Pain points:**\r\n  - \"Нет внятного позиционирования для педагога на главной\" (гипотеза)\r\n  - \"99.7% отвал на прямых визитах без понимания, куда попал\" (CONTEXT.md, \"Топ-пробои\")\r\n- **Opportunities:**\r\n  - Лендинг \"Для педагогов\" с 3 главными ответами и одной кнопкой \"Найти конкурс\"\r\n  - Сторис от реальных педагогов на главной (\"Я веду 32 ребёнка, экономлю 6 часов в месяц\")"}},{"id":"C1.2","title":"Первое знакомство с каталогом","fields":{"Touchpoint":"events.артнавигатор.рф - каталог и фильтры\r\n- **Goal:** понять, есть ли то, что мне нужно\r\n- **Thoughts:**\r\n  - \"О, тут фильтр по 'школьный хор', это удобно\"\r\n  - \"А почему нет фильтра 'гос. образца'? Или он где-то есть?\"\r\n- **Emotion:** hopeful (2)\r\n- **Intensity:** 2\r\n- **Pain points:**\r\n  - \"30% конверсия в просмотр карточки с главной - большинство уходят\" (CONTEXT.md)\r\n- **Opportunities:**\r\n  - Персональные рекомендации на главной после 1-го визита (на основе истории)"}},{"id":"C2.1","title":"Подача первой заявки","fields":{"Touchpoint":"событийный путь на events.артнавигатор.рф\r\n- **Goal:** проверить, как это работает в реальности\r\n- **Thoughts:**\r\n  - \"Ладно, рискну - всё равно Петровна хвалила\"\r\n  - \"Если форма окажется сложной - вернусь на Конкурс.ру\"\r\n- **Emotion:** anxious (2)\r\n- **Intensity:** 2\r\n- **Pain points:**\r\n  - \"Сложный путь для педагогов\" (CONTEXT.md, стратегия)\r\n- **Opportunities:**\r\n  - Пошаговый онбординг с прогресс-баром \"Сейчас вы на шаге 2 из 4\"\r\n  - Призыв сохранить черновик после шага 1"}},{"id":"C2.2","title":"Получение первого результата и впечатления","fields":{"Touchpoint":"email/уведомление о результате + диплом на oki.артнавигатор.рф\r\n- **Goal:** понять, облегчило это жизнь или нет\r\n- **Thoughts:**\r\n  - \"Удобно, что всё в одном месте\"\r\n  - \"Но формы длинные, и поддержки почти не было\"\r\n- **Emotion:** hopeful (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"Нет follow-up после первого опыта\" (CONTEXT.md, \"нет CRM\")\r\n  - \"100% потерь на этапе 'повторная покупка'\" (CONTEXT.md, \"Топ-пробои\")\r\n- **Opportunities:**\r\n  - Email через месяц после первого конкурса: \"Спасибо! Вот конкурсы, подходящие вашему коллективу\"\r\n  - Баллы лояльности \"Уже 2-й сезон с нами\""}},{"id":"C3.1","title":"Оценка - стоит ли возвращаться?","fields":{"Touchpoint":"внутренние размышления + сравнение с альтернативой (Конкурс.ру, Школьный портал, ручной поиск)\r\n- **Goal:** понять - решает задачу или нет\r\n- **Thoughts:**\r\n  - \"В целом - да, удобнее, чем Яндекс + Excel\"\r\n  - \"Но рутины с формами всё равно много\"\r\n- **Emotion:** hopeful (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"Если платформа не напоминает о себе - забываю, возвращаюсь в Яндекс\" (гипотеза)\r\n- **Opportunities:**\r\n  - Триггерное письмо в начале нового сезона: \"Пора планировать конкурсы на этот год\"\r\n  - Персональный менеджер для топ-100 педагогов по обороту"}},{"id":"C3.2","title":"Подача второй заявки в новом сезоне","fields":{"Touchpoint":"events.артнавигатор.рф + ЛК my.артнавигатор.рф\r\n- **Goal:** проверить - стала ли платформа лучше за лето\r\n- **Thoughts:**\r\n  - \"Если шаблоны работают - я в деле\"\r\n  - \"Если снова 600 полей - пойду искать альтернативу\"\r\n- **Emotion:** confident (3)\r\n- **Intensity:** 3\r\n- **Pain points:**\r\n  - \"Нет шаблона коллектива для повторных заявок\" (гипотеза)\r\n- **Opportunities:**\r\n  - \"Мой коллектив\" в ЛК - сохраняет список учеников + кнопка \"Создать новую заявку на основе\""}},{"id":"C4.1","title":"Вход в привычку - 3+ сезона","fields":{"Touchpoint":"events.артнавигатор.рф, my.артнавигатор.рф, oki.артнавигатор.рф\r\n- **Goal:** платформа становится рабочим инструментом, а не разовой попыткой\r\n- **Thoughts:**\r\n  - \"Я уже не представляю, как раньше жила без шаблонов и истории заявок\"\r\n- **Emotion:** confident (5)\r\n- **Intensity:** 5\r\n- **Pain points:**\r\n  - \"Нет программы лояльности для постоянных педагогов\" (гипотеза)\r\n- **Opportunities:**\r\n  - Скидки за лояльность: \"Вы с нами 3-й сезон - бесплатный диплом гос. образца на 1 участника\"\r\n  - Бейдж \"Постоянный партнёр\" на странице в classes.артнавигатор.рф"}},{"id":"C4.2","title":"Углубление - новые номинации и форматы","fields":{"Touchpoint":"расширенный каталог на events.артнавигатор.рф\r\n- **Goal:** попробовать новые форматы - онлайн, международные, многожанровые\r\n- **Thoughts:**\r\n  - \"Хочу попробовать международный конкурс, но боюсь языкового барьера\"\r\n- **Emotion:** hopeful (4)\r\n- **Intensity:** 4\r\n- **Pain points:**\r\n  - \"Нет рекомендаций 'вот что ещё интересно'\" (гипотеза)\r\n- **Opportunities:**\r\n  - Подборка \"Смелые варианты\" - конкурсы, которые выходят за рамки обычного"}},{"id":"C5.1","title":"Рекомендации коллегам","fields":{"Touchpoint":"разговоры в учительской + отзыв на сайте\r\n- **Goal:** поделиться опытом\r\n- **Thoughts:**\r\n  - \"Петровна спрашивает - где я подаю заявки - расскажу\"\r\n- **Emotion:** proud (5)\r\n- **Intensity:** 5\r\n- **Pain points:**\r\n  - \"Нет удобного способа пригласить коллегу\" (гипотеза)\r\n- **Opportunities:**\r\n  - Реферальная ссылка \"Пригласите коллегу - получите 1 бесплатную заявку\"\r\n  - Кнопка \"Рассказать коллегам\" после удачного опыта"}},{"id":"C5.2","title":"Участие в жизни платформы","fields":{"Touchpoint":"отзывы, UGC, тематические вебинары ArtNavigator\r\n- **Goal:** быть не просто клиентом, а частью сообщества\r\n- **Thoughts:**\r\n  - \"Я могу быть в жюри или ментором для новых педагогов\"\r\n- **Emotion:** proud (5)\r\n- **Intensity:** 5\r\n- **Pain points:**\r\n  - \"Нет закрытого клуба / сообщества педагогов\" (гипотеза)\r\n- **Opportunities:**\r\n  - \"Клуб педагогов ArtNavigator\" - вебинары, обмен опытом, ранний доступ к продуктам"}}];
-
-function escapeHtml(s) { if(!s)return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-function parseStep(step) {
-  const f = step.fields || {};
-  const r = { Touchpoint:'', Goal:'', Thoughts:[], Emotion:'', Pain:[], Opportunities:[] };
-  const raw = f.Touchpoint || '';
-  const parts = raw.split(/(?=\*\*[A-Za-zА-Яа-я]+\*\*)/);
-  parts.forEach(p => {
-    p = p.trim(); if(!p) return;
-    let m;
-    if (m = p.match(/^\*\*Touchpoint:\*\*\s*(.+?)(?=\n-\s*\*\*|$)/s)) r.Touchpoint = m[1].trim().split('\n')[0];
-    else if (m = p.match(/^\*\*Goal:\*\*\s*(.+?)(?=\n-\s*\*\*|$)/s)) r.Goal = m[1].trim();
-    else if (m = p.match(/^\*\*Thoughts:\*\*\s*([\s\S]+?)(?=\n-\s*\*\*|$)/)) {
-      r.Thoughts = m[1].split('\n').map(t => t.replace(/^\s*-\s*"?|"?\s*$/g,'').trim()).filter(t => t.length > 0);
-    }
-    else if (m = p.match(/^\*\*Emotion:\*\*\s*(.+)/)) r.Emotion = m[1].trim();
-    else if (m = p.match(/^\*\*Pain points:\*\*\s*([\s\S]+?)(?=\n-\s*\*\*|$)/)) {
-      r.Pain = m[1].split('\n').map(t => t.replace(/^\s*-\s*/,'').trim()).filter(t => t.length > 0);
-    }
-    else if (m = p.match(/^\*\*Opportunities:\*\*\s*([\s\S]+?)$/s)) {
-      r.Opportunities = m[1].split('\n').map(t => t.replace(/^\s*-\s*/,'').trim()).filter(t => t.length > 0);
-    }
-  });
-  return r;
-}
-
-function openStep(stepId) {
-  const step = STEPS_DATA.find(s => s.id === stepId);
-  if (!step) return;
-  const p = parseStep(step);
-  document.getElementById('m-step-num').textContent = step.id + ' · ' + (step.id.startsWith('A') ? 'Один конкурс' : step.id.startsWith('B') ? 'Учебный год' : '1-2 года');
-  document.getElementById('m-title').textContent = step.title;
-  document.getElementById('m-emotion').innerHTML = p.Emotion ? '<span class="emotion-badge">' + escapeHtml(p.Emotion) + '</span>' : '';
-  
-  let html = '';
-  if (p.Touchpoint) html += '<div class="field"><div class="field-label">Touchpoint · Где происходит</div><div class="field-value">' + escapeHtml(p.Touchpoint) + '</div></div>';
-  if (p.Goal) html += '<div class="field"><div class="field-label">Goal · Чего хочет педагог</div><div class="field-value">' + escapeHtml(p.Goal) + '</div></div>';
-  if (p.Thoughts.length) html += '<div class="field"><div class="field-label">Мысли педагога</div>' + p.Thoughts.map(t => '<div class="thought-item">' + escapeHtml(t) + '</div>').join('') + '</div>';
-  if (p.Pain.length) html += '<div class="field"><div class="field-label">Боли и барьеры</div>' + p.Pain.map(x => '<div class="pain-item">' + escapeHtml(x) + '</div>').join('') + '</div>';
-  if (p.Opportunities.length) html += '<div class="field"><div class="field-label">Возможности для АртНавигатор</div>' + p.Opportunities.map(x => '<div class="opp-item">' + escapeHtml(x) + '</div>').join('') + '</div>';
-  
-  document.getElementById('m-body').innerHTML = html;
-  document.getElementById('modal').classList.add('active');
-}
-
-function closeModal() { document.getElementById('modal').classList.remove('active'); }
-
-// Click on any step node
-document.querySelectorAll('.step-node').forEach(el => {
-  el.addEventListener('click', () => openStep(el.dataset.stepId));
-});
-
-// Close on backdrop click
-document.getElementById('modal').addEventListener('click', (e) => {
-  if (e.target.id === 'modal') closeModal();
-});
-
-// Esc to close
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+function shade(hex,p){const f=parseInt(hex.slice(1),16);const t=p<0?0:255;const a=Math.abs(p)/100;const R=f>>16;const G=(f>>8)&255;const B=f&255;const nR=Math.round((t-R)*a)+R;const nG=Math.round((t-G)*a)+G;const nB=Math.round((t-B)*a)+B;return"#"+(0x1000000+nR*65536+nG*256+nB).toString(16).slice(1)}
+function openModal(k){const d=DETAILS[k];if(!d)return;const h=document.getElementById("modalHead");h.style.background="linear-gradient(135deg, "+d.color+" 0%, "+shade(d.color,-25)+" 100%)";document.getElementById("m-num").textContent=d.num;document.getElementById("m-title").textContent=d.title;document.getElementById("m-desc").textContent=d.desc||"";const b=document.getElementById("m-body");b.innerHTML=d.sections.map(s=>"<h3>"+s.h3+"</h3>"+s.html).join("");document.getElementById("modal").classList.add("active");document.body.style.overflow="hidden"}
+function closeModal(){document.getElementById("modal").classList.remove("active");document.body.style.overflow=""}
+document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll(".node").forEach(el=>{el.addEventListener("click",()=>{const b=el.dataset.branch;if(b)openModal(b)})});document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()})});
 </script>
 </body>
 </html>
