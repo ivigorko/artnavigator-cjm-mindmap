@@ -42,9 +42,8 @@
   .legend .lg{display:inline-flex;align-items:center;gap:6px;}
   .legend .dot{width:11px;height:11px;border-radius:3px;display:inline-block;}
 
-  .stage{flex:1;overflow:auto;position:relative;background:
-    linear-gradient(0deg,transparent 23px,transparent 24px),
-    var(--bg);}
+  .main{display:flex;flex:1;min-height:0;}
+  .stage{flex:1;min-width:0;overflow:auto;position:relative;background:var(--bg);}
   #sizer{position:relative;}
   #world{position:absolute;top:0;left:0;transform-origin:0 0;}
   svg#edges{position:absolute;top:0;left:0;overflow:visible;pointer-events:none;}
@@ -77,8 +76,10 @@
   .hint{position:absolute;left:18px;bottom:18px;font-size:12.5px;font-weight:600;color:var(--muted);background:rgba(255,255,255,.92);padding:8px 14px;border-radius:9px;box-shadow:0 1px 6px rgba(0,0,0,.08);}
 
   /* drawer */
-  .drawer{position:absolute;top:0;right:0;height:100%;width:420px;max-width:90vw;background:#fff;box-shadow:-8px 0 30px rgba(20,20,30,.16);transform:translateX(100%);transition:transform .26s cubic-bezier(.4,0,.2,1);z-index:20;display:flex;flex-direction:column;}
-  .drawer.open{transform:translateX(0);}
+  .drawer{flex:0 0 auto;width:0;overflow:hidden;background:#fff;box-shadow:-8px 0 30px rgba(20,20,30,.10);transition:width .24s cubic-bezier(.4,0,.2,1);border-left:0 solid var(--line);}
+  .drawer.open{width:min(420px,90vw);border-left:1px solid var(--line);}
+  .dcontent{width:min(420px,90vw);height:100%;display:flex;flex-direction:column;}
+  .hint{transition:opacity .4s;}
   .dh{padding:22px 24px 18px;color:#fff;position:relative;}
   .dh .kicker{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;opacity:.95;}
   .dh h2{margin:8px 0 0;font-size:22px;font-weight:800;line-height:1.22;}
@@ -117,22 +118,26 @@
     </div>
   </header>
 
-  <div class="stage" id="stage">
-    <div id="sizer">
-      <div id="world">
-        <svg id="edges"></svg>
-        <div id="nodes"></div>
+  <div class="main">
+    <div class="stage" id="stage">
+      <div id="sizer">
+        <div id="world">
+          <svg id="edges"></svg>
+          <div id="nodes"></div>
+        </div>
+      </div>
+      <div class="hint" id="hint">Клик по карточке — раскрыть ветку и детали · кнопки справа — масштаб · прокрутка — навигация</div>
+      <div class="zoombar">
+        <button id="zin" title="Крупнее">+</button>
+        <button id="zout" title="Мельче">−</button>
+        <button id="zfit" title="Вписать по ширине" style="font-size:15px;">⤢</button>
       </div>
     </div>
-    <div class="hint">Клик по карточке — раскрыть ветку и детали · кнопки справа — масштаб · прокрутка — навигация</div>
-    <div class="zoombar">
-      <button id="zin" title="Крупнее">+</button>
-      <button id="zout" title="Мельче">−</button>
-      <button id="zfit" title="Вписать по ширине" style="font-size:15px;">⤢</button>
-    </div>
     <aside class="drawer" id="drawer">
-      <div class="dh" id="drawerHead"></div>
-      <div class="db" id="drawerBody"></div>
+      <div class="dcontent">
+        <div class="dh" id="drawerHead"></div>
+        <div class="db" id="drawerBody"></div>
+      </div>
     </aside>
   </div>
 
@@ -437,9 +442,11 @@ function render(){
 function onNodeClick(n){
   selectedId=n._id;
   if(n.children&&n.children.length) n._collapsed=!n._collapsed;
+  const h=document.getElementById('hint'); if(h) h.style.display='none';
   openDrawer(n);
   render();
   scrollNodeIntoView(n);
+  setTimeout(()=>scrollNodeIntoView(n),270);
 }
 function expandPathTo(n){ let p=n._parent; while(p){ p._collapsed=false; p=p._parent; } }
 function setAll(c){ ALL.forEach(n=>{ if(n.children&&n.children.length)n._collapsed=c;}); DATA._collapsed=false; render(); }
@@ -579,4 +586,4 @@ if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(()=>render()
 </script>
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
