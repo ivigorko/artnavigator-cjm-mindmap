@@ -2262,7 +2262,7 @@ function cardHtml(n){
   const acc=branchAccent(n);
   const hasKids=n.children&&n.children.length;
   let sub='', meta='';
-  if(n.kind==='segment'||n.kind==='strategy'){ sub=`<div class="sub">${esc(n.tagline||'')}</div>${subsChips(n)}`; }
+  if(n.kind==='segment'||n.kind==='strategy'||n.kind==='role'){ sub=`<div class="sub">${esc(n.tagline||'')}</div>${subsChips(n)}`; }
   if(n.kind==='phase'){
     const e=EMO[n.emotion];
     const tripChip = n.trip?`<span class="chip" style="background:#F0561E;">выездное</span>`:'';
@@ -2297,12 +2297,23 @@ function render(){
   const map={};
   nodesEl.querySelectorAll('.node').forEach(el=>{
     map[el.dataset.id]=el;
-    const n=ALL.find(x=>x._id===el.dataset.id); n._h=el.offsetHeight;
+    const n=ALL.find(x=>x._id===el.dataset.id);
+    n._h=el.offsetHeight||el.getBoundingClientRect().height||120;
     el.addEventListener('click',ev=>{ ev.stopPropagation(); onNodeClick(ALL.find(x=>x._id===el.dataset.id)); });
   });
 
+  // First assignY pass — с запасом по умолчанию
   assignY();
   vis.forEach(n=>{ const el=map[n._id]; if(el) el.style.top=n._y+'px'; });
+  // requestAnimationFrame для гарантии, что offsetHeight валиден после DOM commit
+  requestAnimationFrame(()=>{
+    nodesEl.querySelectorAll('.node').forEach(el=>{
+      const n=ALL.find(x=>x._id===el.dataset.id);
+      if(n) n._h=el.offsetHeight||el.getBoundingClientRect().height||120;
+    });
+    assignY();
+    vis.forEach(n=>{ const el=map[n._id]; if(el) el.style.top=n._y+'px'; });
+  });
 
   sizer.style.width=(canvasW*scale)+'px';
   sizer.style.height=(canvasH*scale)+'px';
@@ -2332,6 +2343,8 @@ function render(){
 function onNodeClick(n){
   selectedId=n._id;
   if(n.children&&n.children.length) n._collapsed=!n._collapsed;
+  // Force open ancestors (so a click on a deep node always shows up)
+  let p=n._parent; while(p){ p._collapsed=false; p=p._parent; }
   const h=document.getElementById('hint'); if(h) h.style.display='none';
   openDrawer(n);
   render();
@@ -2343,7 +2356,7 @@ function setAll(c){ ALL.forEach(n=>{ if(n.children&&n.children.length)n._collaps
 
 function scrollNodeIntoView(n){
   const nx=n._x*scale, ny=n._y*scale;
-  const pad=140;
+  const pad=180;
   if(nx<stage.scrollLeft+pad) stage.scrollLeft=Math.max(0,nx-pad);
   if(nx+CARDW*scale>stage.scrollLeft+stage.clientWidth-pad) stage.scrollLeft=nx+CARDW*scale-stage.clientWidth+pad;
   if(ny<stage.scrollTop+pad) stage.scrollTop=Math.max(0,ny-pad);
@@ -2360,8 +2373,8 @@ function openDrawer(n){
     kicker='Обзор';
     body=`<div class="field"><div class="val">Карта пути педагога АртНавигатор, CJM v2.0: 2 сегмента, 3 горизонта, боли и возможности. Стратегический фокус — выездной сценарий, локальный побочный. Кликайте карточки, чтобы раскрывать ветки.</div></div>
     <div class="field"><div class="lbl">Как читать</div><ul><li>Цвет метки фазы — эмоция (легенда сверху)</li><li>«severity N» у фрикций — сила боли</li><li>★ — эмоциональный пик горизонта</li></ul></div>`;
-  } else if(n.kind==='segment'||n.kind==='strategy'){
-    kicker=n.kind==='segment'?'Сегмент':'Стратегия';
+  } else if(n.kind==='segment'||n.kind==='strategy'||n.kind==='role'){
+    kicker=n.kind==='segment'?'Сегмент':(n.kind==='role'?'Роль':'Стратегия');
     body=`<div class="field"><div class="val">${esc(n.tagline||'')}</div></div>${subsHtml(n)}`;
   } else if(n.kind==='persona'){
     kicker='Персона';
